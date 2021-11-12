@@ -1,4 +1,4 @@
-# Wanna Hang Out (server)
+# IEI Lab (server)
 
 We use Heroku to deploy our server, you can [access the api here](https://iei-lab-server.herokuapp.com)
 
