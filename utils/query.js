@@ -12,3 +12,12 @@ export async function query(db, sql) {
 		})
 	})
 }
+
+export async function isInDatabase(db, column, fromTables, conditionWhere) {
+	var select = 'SELECT COUNT(' + column + ') as cuenta '
+	var from = 'FROM ' + fromTables + ' '
+	var where = 'WHERE ' + conditionWhere + ';'
+	var sql = select + from + where
+	//log(sql)
+	return await query(db, sql)
+}
