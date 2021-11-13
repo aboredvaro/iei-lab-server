@@ -8,6 +8,7 @@ import cors from 'cors'
 import mysql from 'mysql'
 
 import log from './utils/log.js'
+import * as euskadi from './utils/euskadi.js'
 
 app.use(cors())
 app.use(express.json())
@@ -75,6 +76,12 @@ app.get('/env', (req, res) => {
 //  //  //  //  //
 
 // ===========================> TRANSFORMATION HERE <===========================
+
+app.post('/api/json', (req, res) => {
+	euskadi.getQueryString(res).then(response => {
+		res.send(response)
+	})
+})
 
 //  //  //  //  //
 //
