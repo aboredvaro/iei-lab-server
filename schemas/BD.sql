@@ -2,7 +2,6 @@
 CREATE DATABASE IF NOT EXISTS heroku_466c304cf70709d;
 USE heroku_466c304cf70709d;
 
-
 CREATE TABLE provincia (
 	codigo INT,
 	nombre VARCHAR(100) NOT NULL,
@@ -18,6 +17,7 @@ CREATE TABLE localidad (
 );
 
 CREATE TABLE biblioteca (
+	id INT AUTO_INCREMENT,
 	nombre VARCHAR(200),
 	tipo VARCHAR(200) NOT NULL,
 	direccion VARCHAR(200) NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE biblioteca (
 	latitud DOUBLE NOT NULL,
 	telefono INT,
 	email VARCHAR(100) NOT NULL,
-	descriptión VARCHAR(500),
-	PRIMARY KEY(nombre),
+	descripcion VARCHAR(500),
+	PRIMARY KEY(id),
 	FOREIGN KEY (codigoPostal) REFERENCES localidad (codigo)
 );

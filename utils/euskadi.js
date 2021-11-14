@@ -3,7 +3,7 @@ import * as utilities from './utilities.js'
 import * as query from './query.js'
 
 export async function insertJSON(db, entrada) {
-	query.regenerarBD(db)
+	//query.regenerarBD(db)
 	var resultado = ''
 	resultado += await insertarProvinciaInBD(db, entrada) + ' de Euskadi'
 	resultado += '\n'
