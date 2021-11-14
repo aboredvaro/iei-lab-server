@@ -6099,14 +6099,14 @@
   "metadataXML" : "https://www.euskadi.eus/contenidos/biblioteca/x42t_biblio_163/r01Index/x42t_biblio_163-idxContent.xml",
   "zipFile" : "https://www.euskadi.eus/contenidos/biblioteca/x42t_biblio_163/opendata/x42t_biblio_163.zip"
 }, {
-  "documentName" : "Izurtza - Biblioteca Municipal Nicolás Alzola \"Bitaño\"",
-  "documentDescription" : "Izurtza - Biblioteca Municipal Nicolás Alzola \"Bitaño\"",
+  "documentName" : "Izurtza - Biblioteca Municipal Nicolás Alzola",
+  "documentDescription" : "Izurtza - Biblioteca Municipal Nicolás Alzola",
   "libraryTimeTable" : "Lunes, martes y miércoles: 10:30 - 14:00. Jueves y viernes: 11:30 - 13:00 y 16:30 - 18:30",
   "librarySummerTimeTable" : "De lunes a viernes: 10:30 - 14:00",
   "latitudelongitude" : "43.153422,-2.640045",
   "latwgs84" : "43.153422",
   "lonwgs84" : "-2.640045",
-  "placename" : "Izurtza - Nicolas Alzola \"Bitaño\" Herri Liburutegia",
+  "placename" : "Izurtza - Nicolas Alzola Herri Liburutegia",
   "address" : "Eleizalde, 13 13",
   "municipality" : "Izurtza",
   "municipalitycode" : "",

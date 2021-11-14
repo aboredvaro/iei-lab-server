@@ -78,7 +78,15 @@ app.get('/env', (req, res) => {
 // ===========================> TRANSFORMATION HERE <===========================
 
 app.post('/api/json', (req, res) => {
-	euskadi.getQueryString(res).then(response => {
+	//log(req.body)
+	euskadi.insertJSON(db, req.body).then(response => {
+		res.send(response)
+	})
+})
+
+app.get('/api/json', (req, res) => {
+	//log(req)
+	euskadi.insertJSON(db).then(response => {
 		res.send(response)
 	})
 })

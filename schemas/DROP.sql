@@ -1,6 +1,9 @@
 -- BD Producción
-CREATE DATABASE IF NOT EXISTS heroku_466c304cf70709d;
 USE heroku_466c304cf70709d;
+
+DROP TABLE biblioteca;
+DROP TABLE localidad;
+DROP TABLE provincia;
 
 CREATE TABLE provincia (
 	codigo INT,
