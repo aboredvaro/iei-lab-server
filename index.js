@@ -78,7 +78,8 @@ app.get('/env', (req, res) => {
 // ===========================> TRANSFORMATION HERE <===========================
 
 app.post('/api/json', (req, res) => {
-	euskadi.insertProvinciaInBD(db, req.body).then(response => {
+	log(req.body)
+	euskadi.insertJSON(db, req.body).then(response => {
 		res.send(response)
 	})
 })

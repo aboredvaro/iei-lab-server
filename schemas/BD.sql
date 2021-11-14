@@ -18,16 +18,16 @@ CREATE TABLE localidad (
 );
 
 CREATE TABLE biblioteca (
-	id_biblioteca INT AUTO_INCREMENT,
-	nombre VARCHAR(200) NOT NULL,
+	nombre VARCHAR(200),
 	tipo VARCHAR(200) NOT NULL,
 	direccion VARCHAR(200) NOT NULL,
 	codigoPostal INT NOT NULL,
+	codigoLocalidad INT NOT NULL,
 	longitud DOUBLE NOT NULL,
 	latitud DOUBLE NOT NULL,
-	telefono INT NOT NULL,
+	telefono INT,
 	email VARCHAR(100) NOT NULL,
-	descriptión VARCHAR(500) NOT NULL,
-	PRIMARY KEY(id_biblioteca),
+	descriptión VARCHAR(500),
+	PRIMARY KEY(nombre),
 	FOREIGN KEY (codigoPostal) REFERENCES localidad (codigo)
 );
