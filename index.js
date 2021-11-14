@@ -9,6 +9,7 @@ import mysql from 'mysql'
 
 import log from './utils/log.js'
 import * as euskadi from './utils/euskadi.js'
+import * as catalunya from './utils/catalunya.js'
 
 app.use(cors())
 app.use(express.json())
@@ -77,9 +78,9 @@ app.get('/env', (req, res) => {
 
 // ===========================> TRANSFORMATION HERE <===========================
 
-app.post('/api/json', (req, res) => {
+app.get('/api/xml', (req, res) => {
 	//log(req.body)
-	euskadi.insertJSON(db, req.body).then(response => {
+	catalunya.insertXML(db).then(response => {
 		res.send(response)
 	})
 })
