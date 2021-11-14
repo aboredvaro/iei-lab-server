@@ -1,15 +1,19 @@
+import { readFile } from 'fs/promises'
+const euskadi = JSON.parse(await readFile(new URL('../fuente/euskadi.json', import.meta.url)))
+
 import log from './log.js'
 import * as utilities from './utilities.js'
 import * as query from './query.js'
 
-export async function insertJSON(db, entrada) {
+export async function insertJSON(db) {
+	//log(euskadi)
 	//query.regenerarBD(db)
 	var resultado = ''
-	resultado += await insertarProvinciaInBD(db, entrada) + ' de Euskadi'
+	resultado += await insertarProvinciaInBD(db, euskadi) + ' de Euskadi'
 	resultado += '\n'
-	resultado += await insertLocalidadInBD(db, entrada) + ' de Euskadi'
+	resultado += await insertLocalidadInBD(db, euskadi) + ' de Euskadi'
 	resultado += '\n'
-	resultado += await insertBibliotecaInBD(db, entrada) + ' de Euskadi'
+	resultado += await insertBibliotecaInBD(db, euskadi) + ' de Euskadi'
 	return resultado
 }
 

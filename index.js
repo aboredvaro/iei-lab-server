@@ -84,6 +84,13 @@ app.post('/api/json', (req, res) => {
 	})
 })
 
+app.get('/api/json', (req, res) => {
+	//log(req)
+	euskadi.insertJSON(db).then(response => {
+		res.send(response)
+	})
+})
+
 //  //  //  //  //
 //
 //  START LISTENING
