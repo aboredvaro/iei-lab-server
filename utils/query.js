@@ -23,12 +23,63 @@ export async function isInDatabase(db, column, fromTables, conditionWhere) {
 }
 
 export async function regenerarBD(db){
-	var consulta = 'DROP TABLE IF EXISTS biblioteca; '
-	consulta += 'DROP TABLE IF EXISTS localidad; '
-	consulta += 'DROP TABLE IF EXISTS provincia; '
-	consulta += 'CREATE TABLE provincia (codigo INT, nombre VARCHAR(100) NOT NULL, PRIMARY KEY(codigo)); \n'
-	consulta += 'CREATE TABLE localidad (codigo INT, nombre VARCHAR(100) NOT NULL, codigoProvincia INT NOT NULL, PRIMARY KEY(codigo), FOREIGN KEY (codigoProvincia) REFERENCES provincia (codigo)); \n'
-	consulta += 'CREATE TABLE biblioteca ( nombre VARCHAR(200), tipo VARCHAR(200) NOT NULL, direccion VARCHAR(200) NOT NULL, codigoPostal INT NOT NULL, codigoLocalidad INT NOT NULL, longitud DOUBLE NOT NULL, latitud DOUBLE NOT NULL, telefono INT, email VARCHAR(100) NOT NULL, descripcion VARCHAR(500), PRIMARY KEY(nombre), FOREIGN KEY (codigoPostal) REFERENCES localidad (codigo)); \n'
+	/*
+	new Promise(resolve => {
+		db.query('DROP DATABASE IF EXISTS heroku_466c304cf70709d;', (err, result) => {
+			if (err) {
+				console.log(err)
+				resolve('Error al eliminar la BD')
+			}
+			resolve('La BD se ha eliminado')
+		})
+	})
+
+	new Promise(resolve => {
+		db.query('CREATE DATABASE IF NOT EXISTS heroku_466c304cf70709d; ', (err, result) => {
+			if (err) {
+				console.log(err)
+				resolve(-1)
+			}
+			resolve(result)
+		})
+	})
+
+	new Promise(resolve => {
+		db.query('CREATE TABLE heroku_466c304cf70709d.provincia (codigo INT, nombre VARCHAR(100) NOT NULL, PRIMARY KEY(codigo)); ', (err, result) => {
+			if (err) {
+				console.log(err)
+				resolve(-1)
+			}
+			resolve(result)
+		})
+	})
+
+	new Promise(resolve => {
+		db.query('CREATE TABLE heroku_466c304cf70709d.localidad (codigo INT, nombre VARCHAR(100) NOT NULL, codigoProvincia INT NOT NULL, PRIMARY KEY(codigo), FOREIGN KEY (codigoProvincia) REFERENCES provincia (codigo)); ', (err, result) => {
+			if (err) {
+				console.log(err)
+				resolve(-1)
+			}
+			resolve(result)
+		})
+	})
+
+	new Promise(resolve => {
+		db.query('CREATE TABLE heroku_466c304cf70709d.biblioteca ( nombre VARCHAR(200), tipo VARCHAR(200) NOT NULL, direccion VARCHAR(200) NOT NULL, codigoPostal INT NOT NULL, codigoLocalidad INT NOT NULL, longitud DOUBLE NOT NULL, latitud DOUBLE NOT NULL, telefono INT, email VARCHAR(100) NOT NULL, descripcion VARCHAR(500), PRIMARY KEY(nombre), FOREIGN KEY (codigoPostal) REFERENCES localidad (codigo)); ', (err, result) => {
+			if (err) {
+				console.log(err)
+				resolve(-1)
+			}
+			resolve(result)
+		})
+	})
+	*/
+
+	var consulta = 'DROP DATABASE IF EXISTS heroku_466c304cf70709d; CREATE DATABASE IF NOT EXISTS heroku_466c304cf70709d;'
+	//consulta += 'CREATE DATABASE IF NOT EXISTS heroku_466c304cf70709d; \n'
+	//consulta += 'CREATE TABLE heroku_466c304cf70709d.provincia (codigo INT, nombre VARCHAR(100) NOT NULL, PRIMARY KEY(codigo)); '
+	//consulta += 'CREATE TABLE heroku_466c304cf70709d.localidad (codigo INT, nombre VARCHAR(100) NOT NULL, codigoProvincia INT NOT NULL, PRIMARY KEY(codigo), FOREIGN KEY (codigoProvincia) REFERENCES provincia (codigo)); '
+	//consulta += 'CREATE TABLE heroku_466c304cf70709d.biblioteca ( nombre VARCHAR(200), tipo VARCHAR(200) NOT NULL, direccion VARCHAR(200) NOT NULL, codigoPostal INT NOT NULL, codigoLocalidad INT NOT NULL, longitud DOUBLE NOT NULL, latitud DOUBLE NOT NULL, telefono INT, email VARCHAR(100) NOT NULL, descripcion VARCHAR(500), PRIMARY KEY(nombre), FOREIGN KEY (codigoPostal) REFERENCES localidad (codigo)); '
 	log(consulta)
 	return new Promise(resolve => {
 		db.query(consulta, (err, result) => {
@@ -39,5 +90,4 @@ export async function regenerarBD(db){
 			resolve(result)
 		})
 	})
-	
 }
