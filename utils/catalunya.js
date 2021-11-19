@@ -13,7 +13,9 @@ export async function insertXML(db) {
 				resolve(result)
 			})
 		})
-	}).then(json => {
+	}).then(json =>
+		json.response.row
+	).then(async(json) => {
 		log(json)
 		//query.regenerarBD(db)
 		var resultado = ''
