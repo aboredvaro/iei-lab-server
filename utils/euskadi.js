@@ -25,7 +25,7 @@ export async function insertJSON(db) {
 	resultado += await insertLocalidadInBD(db, euskadi) + ' de Euskadi'
 	resultado += '\n'
 	resultado += await insertBibliotecaInBD(db, euskadi) + ' de Euskadi'
-	return resultado
+	return true
 
 }
 

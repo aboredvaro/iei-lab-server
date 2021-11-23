@@ -8,8 +8,7 @@ import cors from 'cors'
 import mysql from 'mysql'
 
 import log from './utils/log.js'
-import * as euskadi from './utils/euskadi.js'
-import * as catalunya from './utils/catalunya.js'
+import * as query from './utils/query.js'
 
 app.use(cors())
 app.use(express.json())
@@ -76,18 +75,9 @@ app.get('/env', (req, res) => {
 //
 //  //  //  //  //
 
-// ===========================> TRANSFORMATION HERE <===========================
-
-app.get('/api/xml', (req, res) => {
-	//log(req.body)
-	catalunya.insertXML(db).then(response => {
-		res.send(response)
-	})
-})
-
-app.get('/api/json', (req, res) => {
-	//log(req)
-	euskadi.insertJSON(db).then(response => {
+app.get('/api/poblarBD', (req, res) => {
+	query.poblarBD(db).then(response => {
+		log(response)
 		res.send(response)
 	})
 })
