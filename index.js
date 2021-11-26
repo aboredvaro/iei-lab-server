@@ -25,7 +25,7 @@ const db_config = {
 	password: process.env.REACT_APP_DB_PASSWORD,
 	database: process.env.REACT_APP_DB_NAME,
 	connectionLimit : 100,
-	acquireTimeout: 300
+	acquireTimeout: 5000
 }
 
 const db = mysql.createPool(db_config)
