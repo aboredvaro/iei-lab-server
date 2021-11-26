@@ -5,13 +5,8 @@ import log from './log.js'
 import * as utilities from './utilities.js'
 import * as query from './query.js'
 
-
-
 export async function insertcvs(db) {
-   
-    
-
-
+	
 	var parser = new cvsJSON.Parser()
 	return new Promise(resolve => {
 		fs.readFile('./fuente/valencia.cvs', function(err, data) {
@@ -91,7 +86,7 @@ async function insertLocalidadInBD(db, entrada) {
 	var consultaNecesaria=0
 	for (var i = 0; i < claves.length; i++) {
 		let cuenta = new Promise(resolve => {
-            console.log('entro aquí5');
+			log('entro aquí5')
 			db.query('SELECT COUNT(codigo) as cuenta FROM localidad WHERE codigo = ' + claves[i] +';', (err, result) => {
 				if (err) {
 					console.log(err)
