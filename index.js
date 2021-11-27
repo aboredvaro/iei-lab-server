@@ -9,6 +9,7 @@ import mysql from 'mysql'
 
 import log from './utils/log.js'
 import * as query from './utils/query.js'
+import * as catalunya from './utils/catalunya.js'
 
 app.use(cors())
 app.use(express.json())
@@ -78,6 +79,13 @@ app.get('/env', (req, res) => {
 app.get('/api/poblarBD', (req, res) => {
 	query.poblarBD(db).then(response => {
 		log(response)
+		res.send(response)
+	})
+})
+
+app.get('/api/catalunya', (req, res) => {
+	catalunya.insertXML(db).then(response => {
+		//log(response)
 		res.send(response)
 	})
 })

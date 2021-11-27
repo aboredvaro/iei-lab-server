@@ -16,7 +16,7 @@ export async function insertXML(db) {
 	}).then(json =>
 		json.response.row
 	).then(async(json) => {
-		log(json)
+		//log(json)
 		//query.regenerarBD(db)
 		var resultado = ''
 		resultado += await insertarProvinciaInBD(db, json) + ' de Catalunya'
@@ -24,44 +24,90 @@ export async function insertXML(db) {
 		resultado += await insertLocalidadInBD(db, json) + ' de Catalunya'
 		resultado += '\n'
 		resultado += await insertBibliotecaInBD(db, json) + ' de Catalunya'
+		
 		return resultado
 	})
 }
 
 async function insertBibliotecaInBD(db, entrada) {
 	// Crea un string con la consulta de las provincias que no están ya en la BD
-	var insertar = 'INSERT INTO biblioteca (nombre, tipo, direccion, codigoPostal, codigoLocalidad, longitud, latitud, telefono, email) VALUES '
+	var cabecera = 'INSERT INTO biblioteca (nombre, tipo, direccion, codigoPostal, codigoLocalidad, longitud, latitud, telefono, email) VALUES '
 	var consultaNecesaria=0
-	for (var i = 0; i < entrada.length; i++) {
-		let codigoPostal = utilities.getNumber(entrada[i].cpostal)
-		if (codigoPostal !== -1 ) {
-			if (codigoPostal < 1000) {
-				codigoPostal = codigoPostal*1000
-			}
-		}
-		insertar += '("' + entrada[i].alies + '", '
-		insertar += '"' + entrada[i].nom + '", '
-		insertar += '"' + entrada[i].via + '", '
-		insertar += codigoPostal + ', '
-		insertar += codigoPostal%1000 + ', '
-		insertar += parseFloat(entrada[i].longitud) + ', '
-		insertar += parseFloat(entrada[i].latitud) + ', '
-		insertar += (!isNaN(parseInt(entrada[i].telefon1.replace(/\s/g, '')))) ? parseInt(entrada[i].telefon1.replace(/\s/g, '')) + ', ' :  'null, '
-		insertar += '"' + entrada[i].email + '"'
-		insertar += '), '
-		consultaNecesaria++
-	}
-	insertar = insertar.substring(0, insertar.length - 2) + '; '
-	return new Promise(resolve => {
-		db.query(insertar, (err, result) => {
-			if (err) {
-				console.log(err)
-				resolve('Error al insertar Bibliotecas')
-			}
-			resolve('Se han insertado ' + consultaNecesaria +  ' bibliotecas')
-		})
-	})
+	var respuesta
+	
+	var jump = 50
 
+	for (let i = 0; i < entrada.length; i=i+jump) {
+		var insertar = cabecera
+
+		// este for tiene que ser asíncrono
+		for (let j = i; j < i+jump && j < entrada.length ; j++) {
+			let codigoPostal = utilities.getNumber(entrada[j].cpostal)
+			if (codigoPostal !== -1 ) {
+				if (codigoPostal < 1000) {
+					codigoPostal = codigoPostal*1000
+				}
+			}
+			insertar += '("' + entrada[j].nom + '", '
+
+			let descripcion = entrada[j].propietats
+			log(descripcion)
+			descripcion = descripcion.substring(descripcion.lastIndexOf('|')-1)
+			log(descripcion)
+
+			insertar += '"' + descripcion + '", '
+			insertar += '"' + entrada[j].via + '", '
+			insertar += codigoPostal + ', '
+			insertar += codigoPostal%1000 + ', '
+			insertar += parseFloat(entrada[j].longitud) + ', '
+			insertar += parseFloat(entrada[j].latitud) + ', '
+			if (isNaN(parseInt(entrada[j].telefon1))) {
+				insertar += 'null, '
+			} else if (parseInt(entrada[j].telefon1) < 600000000) {
+				insertar += parseInt(entrada[j].telefon1.toString().replace(/\s/g, '')) + ', '
+			} else {
+				insertar += '' + parseInt(entrada[j].telefon1) + ', '
+			}
+			insertar += '"' + entrada[j].email + '"'
+			insertar += '), '
+			consultaNecesaria++
+		}	
+		insertar = insertar.substring(0, insertar.length - 2) + '; '
+		//log(insertar)
+		
+		respuesta = new Promise(resolve => {
+			db.query(insertar, (err, result) => {
+				if (err) {
+					console.log(err)
+					resolve('Error al insertar Bibliotecas')
+				}
+				resolve('Se han insertado ' + consultaNecesaria +  ' bibliotecas')
+			})
+		})
+		sleep(750)
+	}
+	return await respuesta
+
+}
+
+/**
+ *  'ATENCIÓN, GITANADA'
+ * Lo que consigo con esto es detener 'mseg ' milisegundos, bloqueando por completo 
+ * la ejecución de todo el código y continuando después de ese tiempo, pero con 
+ * ejecución síncrona.
+ * 
+ * Lo sé, a tomar por culo las ventajas de la asincronía, pero así no peto el servidor
+ * con muchas consultas, y no tengo que hacer ningún for await raro de cojones de 
+ * configurar.
+ * @param {*} mseg 
+ */
+function sleep(mseg ) {
+	var start = new Date().getTime()
+	for (var i = 0; i < 1e7; i++) {
+		if ((new Date().getTime() - start) > mseg ) {
+			break
+		}
+	}
 }
 
 async function insertLocalidadInBD(db, entrada) {
@@ -72,7 +118,7 @@ async function insertLocalidadInBD(db, entrada) {
 			if (codigo < 1000) {
 				codigo = codigo*1000
 			}
-			return [codigo,item.municipality]
+			return [codigo,item.poblacio]
 		}
 	}))
 	// Conversión de maps a array
@@ -123,7 +169,7 @@ async function insertarProvinciaInBD(db, entrada) {
 				codigo = codigo*1000
 			}
 			codigo = Math.trunc(codigo/1000)
-			return [codigo,item.territory]
+			return [codigo,'Sin Información']
 		}
 	}))
 	// Conversión de maps a array
