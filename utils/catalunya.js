@@ -16,16 +16,15 @@ export async function insertXML(db) {
 	}).then(json =>
 		json.response.row
 	).then(async(json) => {
-		//log(json)
-		//query.regenerarBD(db)
+		//await query.regenerarBD(db)
 		var resultado = ''
 		resultado += await insertarProvinciaInBD(db, json) + ' de Catalunya'
 		resultado += '\n'
 		resultado += await insertLocalidadInBD(db, json) + ' de Catalunya'
 		resultado += '\n'
 		resultado += await insertBibliotecaInBD(db, json) + ' de Catalunya'
-		
-		return resultado
+		log(resultado)
+		return true
 	})
 }
 
@@ -33,11 +32,11 @@ async function insertBibliotecaInBD(db, entrada) {
 	// Crea un string con la consulta de las provincias que no están ya en la BD
 	var cabecera = 'INSERT INTO biblioteca (nombre, tipo, direccion, codigoPostal, codigoLocalidad, longitud, latitud, telefono, email) VALUES '
 	var consultaNecesaria=0
-	var respuesta
+	var respuesta=''
 	
-	var jump = 50
-
+	var jump = 75
 	for (let i = 0; i < entrada.length; i=i+jump) {
+	//for (let i = 0; i < jump; i=i+jump) {
 		var insertar = cabecera
 
 		// este for tiene que ser asíncrono
@@ -48,17 +47,18 @@ async function insertBibliotecaInBD(db, entrada) {
 					codigoPostal = codigoPostal*1000
 				}
 			}
-			insertar += '("' + entrada[j].nom + '", '
+			insertar += '("' + entrada[j].nom.toString().trim() + '", '
 
-			let descripcion = entrada[j].propietats
-			log(descripcion)
-			descripcion = descripcion.substring(descripcion.lastIndexOf('|')-1)
-			log(descripcion)
+			// Si, lo sé, es una jugada muy guarra, pero funciona...
+			let descripcion = JSON.stringify(entrada[j].propietats)
+			descripcion = descripcion.substring(descripcion.lastIndexOf('|')+1)
+			descripcion = descripcion.replace('n"', '$')
+			descripcion = descripcion.substring(0, descripcion.lastIndexOf('$')-3)
 
 			insertar += '"' + descripcion + '", '
 			insertar += '"' + entrada[j].via + '", '
 			insertar += codigoPostal + ', '
-			insertar += codigoPostal%1000 + ', '
+			insertar += parseInt(entrada[j].codi_municipi) + ', '
 			insertar += parseFloat(entrada[j].longitud) + ', '
 			insertar += parseFloat(entrada[j].latitud) + ', '
 			if (isNaN(parseInt(entrada[j].telefon1))) {
@@ -73,7 +73,6 @@ async function insertBibliotecaInBD(db, entrada) {
 			consultaNecesaria++
 		}	
 		insertar = insertar.substring(0, insertar.length - 2) + '; '
-		//log(insertar)
 		
 		respuesta = new Promise(resolve => {
 			db.query(insertar, (err, result) => {
@@ -84,7 +83,9 @@ async function insertBibliotecaInBD(db, entrada) {
 				resolve('Se han insertado ' + consultaNecesaria +  ' bibliotecas')
 			})
 		})
-		sleep(750)
+		sleep(1500)
+		//log('Paquete: ' + i )
+		
 	}
 	return await respuesta
 

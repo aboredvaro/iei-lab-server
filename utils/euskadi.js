@@ -7,26 +7,14 @@ import * as query from './query.js'
 
 export async function insertJSON(db) {
 	//log(euskadi)
-	/*
-	await query.regenerarBD(db).then(async() => {
-		var resultado = ''
-		resultado += await insertarProvinciaInBD(db, euskadi) + ' de Euskadi'
-		resultado += '\n'
-		resultado += await insertLocalidadInBD(db, euskadi) + ' de Euskadi'
-		resultado += '\n'
-		resultado += await insertBibliotecaInBD(db, euskadi) + ' de Euskadi'
-		return resultado
-	})
-	*/
-	
 	var resultado = ''
 	resultado += await insertarProvinciaInBD(db, euskadi) + ' de Euskadi'
 	resultado += '\n'
 	resultado += await insertLocalidadInBD(db, euskadi) + ' de Euskadi'
 	resultado += '\n'
 	resultado += await insertBibliotecaInBD(db, euskadi) + ' de Euskadi'
+	log(resultado)
 	return true
-
 }
 
 async function insertBibliotecaInBD(db, entrada) {

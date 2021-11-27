@@ -4,7 +4,7 @@ import * as euskadi from './euskadi.js'
 import * as catalunya from './catalunya.js'
 
 export async function query(db, sql) {
-	//log(sql)
+	log(sql)
 	return new Promise(resolve => {
 		db.query(sql, (err, result) => {
 			if (err) {
@@ -21,7 +21,7 @@ export async function isInDatabase(db, column, fromTables, conditionWhere) {
 	var from = 'FROM ' + fromTables + ' '
 	var where = 'WHERE ' + conditionWhere + ';'
 	var sql = select + from + where
-	//log(sql)
+	log(sql)
 	return await query(db, sql)
 }
 
@@ -69,12 +69,12 @@ export async function regenerarBD(db){
 		flag = false
 		mensaje += 'Error al CREAR tabla Biblioteca. \n'
 	}
-	//log(mensaje)
+	log(mensaje)
 	return flag 
 }
 
 async function dropBiblioteca(db){
-	var consulta = 'DROP TABLE heroku_466c304cf70709d.biblioteca; '
+	var consulta = 'DROP TABLE biblioteca; '
 	//log(consulta)
 	return new Promise(resolve => {
 		db.query(consulta, (err) => {
@@ -88,7 +88,7 @@ async function dropBiblioteca(db){
 }
 
 async function dropProvincia(db){
-	var consulta = 'DROP TABLE heroku_466c304cf70709d.provincia; '
+	var consulta = 'DROP TABLE provincia; '
 	//log(consulta)
 	return new Promise(resolve => {
 		db.query(consulta, (err) => {
@@ -102,7 +102,7 @@ async function dropProvincia(db){
 }
 
 async function dropLocalidad(db){
-	var consulta = 'DROP TABLE heroku_466c304cf70709d.localidad; '
+	var consulta = 'DROP TABLE localidad; '
 	//log(consulta)
 	return new Promise(resolve => {
 		db.query(consulta, (err) => {
@@ -116,7 +116,7 @@ async function dropLocalidad(db){
 }
 
 async function createProvincia(db){
-	var consulta = 'CREATE TABLE heroku_466c304cf70709d.provincia (codigo INT, nombre VARCHAR(100) NOT NULL, PRIMARY KEY(codigo)); '
+	var consulta = 'CREATE TABLE provincia (codigo INT, nombre VARCHAR(100) NOT NULL, PRIMARY KEY(codigo)); '
 	//log(consulta)
 	return new Promise(resolve => {
 		db.query(consulta, (err) => {
@@ -130,7 +130,7 @@ async function createProvincia(db){
 }
 
 async function createLocalidad(db){
-	var consulta = 'CREATE TABLE heroku_466c304cf70709d.localidad (codigo INT, nombre VARCHAR(100) NOT NULL, codigoProvincia INT NOT NULL, PRIMARY KEY(codigo), FOREIGN KEY (codigoProvincia) REFERENCES provincia (codigo));  '
+	var consulta = 'CREATE TABLE localidad (codigo INT, nombre VARCHAR(100) NOT NULL, codigoProvincia INT NOT NULL, PRIMARY KEY(codigo), FOREIGN KEY (codigoProvincia) REFERENCES provincia (codigo));  '
 	//log(consulta)
 	return new Promise(resolve => {
 		db.query(consulta, (err) => {
@@ -144,7 +144,7 @@ async function createLocalidad(db){
 }
 
 async function createBiblioteca(db){
-	var consulta = 'CREATE TABLE heroku_466c304cf70709d.biblioteca (id INT AUTO_INCREMENT, nombre VARCHAR(200), tipo VARCHAR(200) NOT NULL, direccion VARCHAR(200) NOT NULL, codigoPostal INT NOT NULL, codigoLocalidad INT NOT NULL, longitud DOUBLE NOT NULL, latitud DOUBLE NOT NULL, telefono INT, email VARCHAR(100) NOT NULL, descripcion VARCHAR(500), PRIMARY KEY(id), FOREIGN KEY (codigoPostal) REFERENCES localidad (codigo)); '
+	var consulta = 'CREATE TABLE biblioteca (id INT AUTO_INCREMENT, nombre VARCHAR(200), tipo VARCHAR(200) NOT NULL, direccion VARCHAR(200) NOT NULL, codigoPostal INT NOT NULL, codigoLocalidad INT NOT NULL, longitud DOUBLE NOT NULL, latitud DOUBLE NOT NULL, telefono INT, email VARCHAR(100) NOT NULL, descripcion VARCHAR(500), PRIMARY KEY(id), FOREIGN KEY (codigoPostal) REFERENCES localidad (codigo)); '
 	//log(consulta)
 	return new Promise(resolve => {
 		db.query(consulta, (err) => {
@@ -158,12 +158,19 @@ async function createBiblioteca(db){
 }
 
 export async function poblarBD(db){
+	log('Regenerando la BD')
 	if ( ! (await regenerarBD(db)) ){
 		return '¡Error al regenerar BD!'
 	}
 
+	log('Insertar datos de Euskadi')
 	if ( ! (await euskadi.insertJSON(db)) ){
-		return '¡Error al regenerar BD!'
+		return '¡Error al insertar datos de Euskadi!'
+	}
+
+	log('Insertar datos de Catalunya')
+	if ( ! (await catalunya.insertXML(db)) ){
+		return '¡Error al insertar datos de Catalunya!'
 	}
 
 	return '¡Todo Ok!'

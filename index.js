@@ -26,7 +26,7 @@ const db_config = {
 	password: process.env.REACT_APP_DB_PASSWORD,
 	database: process.env.REACT_APP_DB_NAME,
 	connectionLimit : 100,
-	acquireTimeout: 5000
+	acquireTimeout: 10000
 }
 
 const db = mysql.createPool(db_config)
@@ -78,17 +78,19 @@ app.get('/env', (req, res) => {
 
 app.get('/api/poblarBD', (req, res) => {
 	query.poblarBD(db).then(response => {
-		log(response)
+		//log(response)
 		res.send(response)
 	})
 })
 
+/*
 app.get('/api/catalunya', (req, res) => {
 	catalunya.insertXML(db).then(response => {
 		//log(response)
 		res.send(response)
 	})
 })
+*/
 
 //  //  //  //  //
 //
