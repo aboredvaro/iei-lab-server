@@ -7,29 +7,20 @@ import * as query from './query.js'
 
 export async function insertCSV(db) {
 
-	var parseo = await utilities.csvJSON('./fuente/valencia.csv')
+	var json = await utilities.csvJSON('./fuente/valencia.csv')
 
-	return parseo
-	/*
-	var parser = new csvtojson({})
-	return new Promise(resolve => {
-		fs.readFile('./fuente/valencia.csv', function(err, data) {
-			parser.parseString(data, function (err, result) {
-				resolve(result)
-			})
-		})
-	}).then(async(json) => {
-		log(json)
-		//query.regenerarBD(db)
-		var resultado = ''
-		resultado += await insertarProvinciaInBD(db, json) + ' de Valencia'
-		resultado += '\n'
-		resultado += await insertLocalidadInBD(db, json) + ' de Valencia'
-		resultado += '\n'
-		resultado += await insertBibliotecaInBD(db, json) + ' de Valencia'
-		return resultado
-	})
-	*/
+	//query.regenerarBD(db)
+	var resultado = ''
+	log('Insertando provincias de Valencia')
+	resultado += await insertarProvinciaInBD(db, json) + ' de Valencia'
+	resultado += '\n'
+	log('Insertando localidades de Valencia')
+	resultado += await insertLocalidadInBD(db, json) + ' de Valencia'
+	resultado += '\n'
+	log('Insertando Bibliotecas de Valencia')
+	resultado += await insertBibliotecaInBD(db, json) + ' de Valencia'
+	log(resultado)
+	return resultado
 }
 
 async function insertBibliotecaInBD(db, entrada) {
@@ -38,21 +29,40 @@ async function insertBibliotecaInBD(db, entrada) {
 	var insertar = 'INSERT INTO biblioteca (nombre, tipo, direccion, codigoPostal, codigoLocalidad, longitud, latitud, telefono, email) VALUES '
 	var consultaNecesaria=0
 	for (var i = 0; i < entrada.length; i++) {
-		let codigoPostal = utilities.getNumber(entrada[i].cpostal)
+		let codigoPostal = utilities.getNumber(entrada[i].CP)
 		if (codigoPostal !== -1 ) {
 			if (codigoPostal < 1000) {
 				codigoPostal = codigoPostal*1000
 			}
 		}
-		insertar += '("' + entrada[i].alies + '", '
-		insertar += '"' + entrada[i].nom + '", '
-		insertar += '"' + entrada[i].via + '", '
+		insertar += '("' + utilities.capitalizarPrimeraLetra(entrada[i].NOMBRE) + '", '
+		insertar += '"' + utilities.capitalizarPrimeraLetra(entrada[i].TIPO) + '", '
+		insertar += '"' + utilities.capitalizarPrimeraLetra(entrada[i].DIRECCION) + '", '
 		insertar += codigoPostal + ', '
-		insertar += codigoPostal%1000 + ', '
-		insertar += parseFloat(entrada[i].longitud) + ', '
-		insertar += parseFloat(entrada[i].latitud) + ', '
-		insertar += (!isNaN(parseInt(entrada[i].telefon1.replace(/\s/g, '')))) ? parseInt(entrada[i].telefon1.replace(/\s/g, '')) + ', ' :  'null, '
-		insertar += '"' + entrada[i].email + '"'
+		insertar += entrada[i].COD_MUNICIPIO + ', '
+		insertar += 0 + ', '
+		insertar += 0 + ', '
+
+		let telfno = entrada[i].TELEFONO
+		if (telfno.indexOf('-') !== -1) {
+			telfno = telfno.substring(0, telfno.indexOf('-'))
+		}
+		if (telfno.indexOf('/') !== -1) {
+			telfno = telfno.substring(0, telfno.indexOf('/'))
+		}
+		if (telfno.indexOf(' E') !== -1) {
+			telfno = telfno.substring(0, telfno.indexOf(' E'))
+		}
+		if (telfno.indexOf(' A') !== -1) {
+			telfno = telfno.substring(0, telfno.indexOf(' A'))
+		}
+		telfno = utilities.getNumbersInString(telfno)
+		if ( isNaN(telfno) ) {
+			telfno = '"null"'
+		}
+
+		insertar += telfno + ', '
+		insertar += '"' + utilities.capitalizarPrimeraLetra(entrada[i].EMAIL) + '"'
 		insertar += '), '
 		consultaNecesaria++
 	}
@@ -73,13 +83,12 @@ async function insertBibliotecaInBD(db, entrada) {
 async function insertLocalidadInBD(db, entrada) {
 	// Creamos maps para eliminar localidades duplicadas de antemano, así no se sobrecarga la BD
 	var archivoMapArr = new Map(entrada.map(item=>{
-        
-		let codigo = utilities.getNumber(item.cpostal)
+		let codigo = utilities.getNumber(item.CP)
 		if (codigo !== -1 ) {
 			if (codigo < 1000) {
 				codigo = codigo*1000
 			}
-			return [codigo,item.municipality]
+			return [codigo, [utilities.capitalizarPrimeraLetra(item.NOM_MUNICIPIO), item.COD_PROVINCIA]]
 		}
 	}))
 	// Conversión de maps a array
@@ -91,7 +100,6 @@ async function insertLocalidadInBD(db, entrada) {
 	var consultaNecesaria=0
 	for (var i = 0; i < claves.length; i++) {
 		let cuenta = new Promise(resolve => {
-			log('entro aquí5')
 			db.query('SELECT COUNT(codigo) as cuenta FROM localidad WHERE codigo = ' + claves[i] +';', (err, result) => {
 				if (err) {
 					console.log(err)
@@ -101,7 +109,7 @@ async function insertLocalidadInBD(db, entrada) {
 			})
 		})
 		if ( await cuenta ){
-			insertar += '(' + claves[i] + ', "' + valores[i]  + '", ' + Math.trunc(claves[i]/1000)  + '), '
+			insertar += '(' + claves[i] + ', "' + valores[i][0]  + '", ' + valores[i][1]  + '), '
 			consultaNecesaria++
 		}
 	}
@@ -109,7 +117,6 @@ async function insertLocalidadInBD(db, entrada) {
 
 	// Inserta, si es necesario, las nuevas Localidades
 	if(consultaNecesaria>0){
-      
 		return new Promise(resolve => {
 			db.query(insertar, (err, result) => {
 				if (err) {
@@ -126,14 +133,13 @@ async function insertLocalidadInBD(db, entrada) {
 async function insertarProvinciaInBD(db, entrada) {
 	// Creamos maps para eliminar provincias duplicadas de antemano, así no se sobrecarga la BD
 	var archivoMapArr = new Map(entrada.map(item=>{
-       
-		let codigo = utilities.getNumber(item.cpostal)
+		let codigo = utilities.getNumber(item.CP)
 		if (codigo !== -1 ) {
 			if (codigo < 1000) {
 				codigo = codigo*1000
 			}
 			codigo = Math.trunc(codigo/1000)
-			return [codigo,item.territory]
+			return [codigo, utilities.capitalizarPrimeraLetra(item.NOM_PROVINCIA)]
 		}
 	}))
 	// Conversión de maps a array

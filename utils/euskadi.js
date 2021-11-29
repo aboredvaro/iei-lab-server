@@ -8,10 +8,13 @@ import * as query from './query.js'
 export async function insertJSON(db) {
 	//log(euskadi)
 	var resultado = ''
+	log('Insertando provincias de Euskadi')
 	resultado += await insertarProvinciaInBD(db, euskadi) + ' de Euskadi'
 	resultado += '\n'
+	log('Insertando localidades de Euskadi')
 	resultado += await insertLocalidadInBD(db, euskadi) + ' de Euskadi'
 	resultado += '\n'
+	log('Insertando bibliotecas de Euskadi')
 	resultado += await insertBibliotecaInBD(db, euskadi) + ' de Euskadi'
 	log(resultado)
 	return true

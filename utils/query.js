@@ -2,6 +2,7 @@ import log from './log.js'
 
 import * as euskadi from './euskadi.js'
 import * as catalunya from './catalunya.js'
+import * as valencia from './valencia.js'
 
 export async function query(db, sql) {
 	log(sql)
@@ -26,6 +27,8 @@ export async function isInDatabase(db, column, fromTables, conditionWhere) {
 }
 
 export async function regenerarBD(db){
+	log('Regenerando BD')
+	
 	var flag = true
 	var mensaje = ''
 	if ( await dropBiblioteca(db) ) {
@@ -171,6 +174,11 @@ export async function poblarBD(db){
 	log('Insertar datos de Catalunya')
 	if ( ! (await catalunya.insertXML(db)) ){
 		return '¡Error al insertar datos de Catalunya!'
+	}
+
+	log('Insertar datos de Valencia')
+	if ( ! (await valencia.insertCSV(db)) ){
+		return '¡Error al insertar datos de Valencia!'
 	}
 
 	return '¡Todo Ok!'

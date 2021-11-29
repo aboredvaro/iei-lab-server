@@ -18,10 +18,13 @@ export async function insertXML(db) {
 	).then(async(json) => {
 		//await query.regenerarBD(db)
 		var resultado = ''
+		log('Insertando provincias de Catalunya')
 		resultado += await insertarProvinciaInBD(db, json) + ' de Catalunya'
 		resultado += '\n'
+		log('Insertando localidades de Catalunya')
 		resultado += await insertLocalidadInBD(db, json) + ' de Catalunya'
 		resultado += '\n'
+		log('Insertando bibliotecas de Catalunya')
 		resultado += await insertBibliotecaInBD(db, json) + ' de Catalunya'
 		log(resultado)
 		return true
@@ -34,7 +37,7 @@ async function insertBibliotecaInBD(db, entrada) {
 	var consultaNecesaria=0
 	var respuesta=''
 	
-	var jump = 75
+	var jump = 350
 	for (let i = 0; i < entrada.length; i=i+jump) {
 	//for (let i = 0; i < jump; i=i+jump) {
 		var insertar = cabecera

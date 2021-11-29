@@ -83,13 +83,6 @@ app.get('/api/poblarBD', (req, res) => {
 	})
 })
 
-app.get('/api/valencia', (req, res) => {
-	valencia.insertCSV(db).then(response => {
-		//log(response)
-		res.send(response)
-	})
-})
-
 //  //  //  //  //
 //
 //  START LISTENING

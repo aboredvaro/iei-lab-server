@@ -14,6 +14,20 @@ export function getNumber(valor){
 	return numero
 }
 
+export function capitalizarPrimeraLetra(str) {
+	//return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
+	const arr = str.toString().split(' ')
+	for (var i = 0; i < arr.length; i++) {
+		arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1).toLowerCase()
+	}
+	return arr.join(' ')
+}
+
+export function getNumbersInString(str) {
+	var num = str.toString().replace(/[^0-9]/g, '')
+	return parseInt(num, 10)
+}
+
 export function xml2json(xml) { 
 	try { 
 		var obj = {} 
