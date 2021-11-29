@@ -55,6 +55,7 @@ async function insertBibliotecaInBD(db, entrada) {
 			// Si, lo sé, es una jugada muy guarra, pero funciona...
 			let descripcion = JSON.stringify(entrada[j].propietats)
 			descripcion = descripcion.substring(descripcion.lastIndexOf('|')+1)
+			// aqui hay que revisar el pater de esto
 			descripcion = descripcion.replace('n"', '$')
 			descripcion = descripcion.substring(0, descripcion.lastIndexOf('$')-3)
 
