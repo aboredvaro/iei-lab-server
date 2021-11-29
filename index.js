@@ -9,7 +9,7 @@ import mysql from 'mysql'
 
 import log from './utils/log.js'
 import * as query from './utils/query.js'
-import * as catalunya from './utils/catalunya.js'
+import * as valencia from './utils/valencia.js'
 
 app.use(cors())
 app.use(express.json())
@@ -83,14 +83,12 @@ app.get('/api/poblarBD', (req, res) => {
 	})
 })
 
-/*
-app.get('/api/catalunya', (req, res) => {
-	catalunya.insertXML(db).then(response => {
+app.get('/api/valencia', (req, res) => {
+	valencia.insertCSV(db).then(response => {
 		//log(response)
 		res.send(response)
 	})
 })
-*/
 
 //  //  //  //  //
 //

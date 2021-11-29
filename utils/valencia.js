@@ -1,20 +1,24 @@
 import fs from 'fs'
-import cvsJSON from 'cvsJSON'
+import csvtojson from 'csvtojson'
 
 import log from './log.js'
 import * as utilities from './utilities.js'
 import * as query from './query.js'
 
-export async function insertcvs(db) {
-	
-	var parser = new cvsJSON.Parser()
+export async function insertCSV(db) {
+
+	var parseo = await utilities.csvJSON('./fuente/valencia.csv')
+
+	return parseo
+	/*
+	var parser = new csvtojson({})
 	return new Promise(resolve => {
-		fs.readFile('./fuente/valencia.cvs', function(err, data) {
+		fs.readFile('./fuente/valencia.csv', function(err, data) {
 			parser.parseString(data, function (err, result) {
 				resolve(result)
 			})
 		})
-	}).then(json => {
+	}).then(async(json) => {
 		log(json)
 		//query.regenerarBD(db)
 		var resultado = ''
@@ -25,6 +29,7 @@ export async function insertcvs(db) {
 		resultado += await insertBibliotecaInBD(db, json) + ' de Valencia'
 		return resultado
 	})
+	*/
 }
 
 async function insertBibliotecaInBD(db, entrada) {

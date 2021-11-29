@@ -1,3 +1,6 @@
+import fs from 'fs'
+import log from './log.js'
+
 /**
  * @description Comprueba si el valor introducido es un entero
  * @param {*} valor 
@@ -37,27 +40,39 @@ export function xml2json(xml) {
 		console.log(e.message) 
 	} 
 }
-export function csvJSON(csv){
 
-    var lines=csv.split("\n");
-  
-    var result = [];
-  
-    var headers=lines[0].split(",");
-  
-    for(var i=1;i<lines.length;i++){
-  
-        var obj = {};
-        var currentline=lines[i].split(",");
-  
-        for(var j=0;j<headers.length;j++){
-            obj[headers[j]] = currentline[j];
-        }
-  
-        result.push(obj);
-  
-    }
-    
-    
-    return JSON.stringify(result); //JSON
-  }
+export async function csvJSON(archivo){
+
+	var csv = fs.readFileSync(archivo)
+
+	var array = csv.toString().split('\n')
+
+	let result = []
+
+	let headers = array[0].split(';')
+
+	for (let i = 1; i < array.length - 1; i++) {
+		let obj = {}
+		let str = array[i]
+		let s = ''
+		let flag = 0
+		for (let ch of str) {
+			if (ch === '"' && flag === 0) {
+				flag = 1
+			}
+			else if (ch === '"' && flag == 1) flag = 0
+			if (ch === ';' && flag === 0) ch = '|'
+			if (ch !== '"') s += ch
+		}
+		let properties = s.split('|')
+		for (let j in headers) {
+			if (properties[j].includes(';')) {
+				obj[headers[j]] = properties[j].split(';').map(item => item.trim())
+			} else {
+				obj[headers[j]] = properties[j]
+			}
+		}
+		result.push(obj)
+	}
+	return JSON.parse(JSON.stringify(result))
+}
