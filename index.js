@@ -9,7 +9,6 @@ import mysql from 'mysql'
 
 import log from './utils/log.js'
 import * as query from './utils/query.js'
-import * as valencia from './utils/valencia.js'
 
 app.use(cors())
 app.use(express.json())

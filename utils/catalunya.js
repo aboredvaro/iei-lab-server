@@ -57,6 +57,8 @@ async function insertBibliotecaInBD(db, entrada) {
 			descripcion = descripcion.substring(descripcion.lastIndexOf('|')+1)
 			// aqui hay que revisar el pater de esto
 			descripcion = descripcion.replace('n"', '$')
+			descripcion = descripcion.replace('n\'', '$')
+			//log(descripcion)
 			descripcion = descripcion.substring(0, descripcion.lastIndexOf('$')-3)
 
 			insertar += '"' + descripcion + '", '
