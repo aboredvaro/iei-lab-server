@@ -35,8 +35,8 @@ async function insertBibliotecaInBD(db, entrada) {
 				codigoPostal = codigoPostal*1000
 			}
 		}
-		insertar += '("' + utilities.capitalizarPrimeraLetra(entrada[i].NOMBRE) + '", '
-		insertar += '"' + utilities.capitalizarPrimeraLetra(entrada[i].TIPO) + '", '
+		insertar += '("' + utilities.clearString(utilities.capitalizarPrimeraLetra(entrada[i].NOMBRE)) + '", '
+		insertar += '"' + utilities.clearString(utilities.capitalizarPrimeraLetra(entrada[i].TIPO)) + '", '
 		insertar += '"' + utilities.capitalizarPrimeraLetra(entrada[i].DIRECCION) + '", '
 		insertar += codigoPostal + ', '
 		insertar += entrada[i].COD_MUNICIPIO + ', '

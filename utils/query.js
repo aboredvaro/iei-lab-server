@@ -27,7 +27,7 @@ export async function isInDatabase(db, column, fromTables, conditionWhere) {
 }
 
 export async function regenerarBD(db){
-	log('Regenerando BD')
+	//log('Regenerando BD')
 	
 	var flag = true
 	var mensaje = ''
@@ -161,26 +161,26 @@ async function createBiblioteca(db){
 }
 
 export async function poblarBD(db){
-	log('Regenerando la BD')
+	log('\nRegenerando la BD')
 	if ( ! (await regenerarBD(db)) ){
 		return '¡Error al regenerar BD!'
 	}
 
-	log('Insertar datos de Euskadi')
+	log('\nInsertar datos de Euskadi')
 	if ( ! (await euskadi.insertJSON(db)) ){
 		return '¡Error al insertar datos de Euskadi!'
 	}
 
-	log('Insertar datos de Catalunya')
+	log('\nInsertar datos de Catalunya')
 	if ( ! (await catalunya.insertXML(db)) ){
 		return '¡Error al insertar datos de Catalunya!'
 	}
 
-	log('Insertar datos de Valencia')
+	log('\nInsertar datos de Valencia')
 	if ( ! (await valencia.insertCSV(db)) ){
 		return '¡Error al insertar datos de Valencia!'
 	}
-
+	log('\nSi no hay nada troncho que moleste, enhorabuena, está todo bien')
 	return '¡Todo Ok!'
 
 }

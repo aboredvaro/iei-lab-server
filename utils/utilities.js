@@ -15,6 +15,10 @@ export function getNumber(valor){
 	return numero
 }
 
+export function clearString(string){
+	return string.toString().replace(/[&\\#+()$~%'":*?<>{}]/g, '-')
+}
+
 export function capitalizarPrimeraLetra(str) {
 	//return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
 	const arr = str.toString().split(' ')

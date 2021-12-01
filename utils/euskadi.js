@@ -31,9 +31,9 @@ async function insertBibliotecaInBD(db, entrada) {
 				codigoPostal = codigoPostal*1000
 			}
 		}
-		insertar += '("' + entrada[i].documentName + '", '
-		insertar += '"' + entrada[i].documentDescription + '", '
-		insertar += '"' + entrada[i].address + '", '
+		insertar += '("' + utilities.clearString(entrada[i].documentName) + '", '
+		insertar += '"' + utilities.clearString(entrada[i].documentDescription) + '", '
+		insertar += '"' + utilities.clearString(entrada[i].address) + '", '
 		insertar += codigoPostal + ', '
 		insertar += codigoPostal%1000 + ', '
 		insertar += parseFloat(entrada[i].lonwgs84) + ', '

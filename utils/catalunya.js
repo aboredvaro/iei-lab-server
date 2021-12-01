@@ -50,7 +50,7 @@ async function insertBibliotecaInBD(db, entrada) {
 					codigoPostal = codigoPostal*1000
 				}
 			}
-			insertar += '("' + entrada[j].nom.toString().trim() + '", '
+			insertar += '("' + utilities.clearString(entrada[j].nom.toString().trim()) + '", '
 
 			// Si, lo sé, es una jugada muy guarra, pero funciona...
 			let descripcion = JSON.stringify(entrada[j].propietats)
@@ -61,8 +61,8 @@ async function insertBibliotecaInBD(db, entrada) {
 			//log(descripcion)
 			descripcion = descripcion.substring(0, descripcion.lastIndexOf('$')-3)
 
-			insertar += '"' + descripcion + '", '
-			insertar += '"' + entrada[j].via + '", '
+			insertar += '"' + utilities.clearString(descripcion) + '", '
+			insertar += '"' + utilities.clearString(entrada[j].via) + '", '
 			insertar += codigoPostal + ', '
 			insertar += parseInt(entrada[j].codi_municipi) + ', '
 			insertar += parseFloat(entrada[j].longitud) + ', '

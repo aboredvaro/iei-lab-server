@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<row _id="row-c3jv.nr8i-we7s" _uuid="00000000-0000-0000-E76C-2964F0695BFC" _position="0" _address="https://analisi.transparenciacatalunya.cat/resource/zzzz-zzzz/row-c3jv.nr8i-we7s">
+<idequipament>10627897</idequipament>
+<alies>
+Universitat Politècnica de Catalunya. Biblioteca del Campus Universitari de Manresa
+</alies>
+<nom>
+Universitat Politècnica de Catalunya. Biblioteca del Campus Universitari de Manresa
+</nom>
+<categoria>Cultura|Biblioteques||</categoria>
+<via>Av. Bases de Manresa, 7-11</via>
+<cpostal>08242</cpostal>
+<poblacio>Manresa</poblacio>
+<codi_municipi>081136</codi_municipi>
+<comarca>Bages</comarca>
+<telefon1>93 877 72 21</telefon1>
+<utmx>402263.1</utmx>
+<utmy>4621050.02</utmy>
+<longitud>1.8247223226775613</longitud>
+<latitud>41.7352559365019</latitud>
+<email>biblioteca.bcum@upc.edu</email>
+<data_modificacio>1632468374</data_modificacio>
+<propietats>
+Any de construcció|0|Any del cens|0|Superfície total en m2|0|Titularitat|Universitat
+</propietats>
+<localitzacio>POINT (1.8247223 41.735256)</localitzacio>
+</row>
+<row _id="row-na93_csme-qqz9" _uuid="00000000-0000-0000-9E05-5FAE89633A72" _position="0" _address="https://analisi.transparenciacatalunya.cat/resource/zzzz-zzzz/row-na93_csme-qqz9">
+<idequipament>10628885</idequipament>
+<alies>Biblioteca Can Casacuberta</alies>
+<nom>Biblioteca Can Casacuberta</nom>
+<categoria>Cultura|Biblioteques||</categoria>
+<via>C/ Mossèn Anton Romeu, 48</via>
+<cpostal>08912</cpostal>
+<poblacio>Badalona</poblacio>
+<codi_municipi>080155</codi_municipi>
+<comarca>Barcelonès</comarca>
+<telefon1>93 464 34 00</telefon1>
+<utmx>437100.73</utmx>
+<utmy>4588474.34</utmy>
+<longitud>2.247014345264012</longitud>
+<latitud>41.44538335356168</latitud>
+<email>b.badalona.cc@diba.cat</email>
+<data_modificacio>1632468357</data_modificacio>
+<propietats>
+Any de construcció|0|Any del cens|0|Superfície total en m2|0|Titularitat|Adm. local: ajuntament
+</propietats>
+<localitzacio>POINT (2.2470143 41.445385)</localitzacio>
+</row>
+<row _id="row-scgb_wca4.g5eq" _uuid="00000000-0000-0000-DE54-47511D392DC0" _position="0" _address="https://analisi.transparenciacatalunya.cat/resource/zzzz-zzzz/row-scgb_wca4.g5eq">
+<idequipament>10628087</idequipament>
+<alies>Biblioteca Fundació Maurí</alies>
+<nom>Biblioteca Fundació Maurí</nom>
+<categoria>Cultura|Biblioteques||</categoria>
+<via>C/ Cardedeu, 17</via>
+<cpostal>08530</cpostal>
+<poblacio>Garriga, la</poblacio>
+<codi_municipi>080885</codi_municipi>
+<comarca>Vallès Oriental</comarca>
+<telefon1>93 871 45 01</telefon1>
+<utmx>440680.75</utmx>
+<utmy>4615170.1</utmy>
+<longitud>2.2872308338599283</longitud>
+<latitud>41.68609537358605</latitud>
+<email>fundaciomauri@gmail.com</email>
+<data_modificacio>1632468367</data_modificacio>
+<propietats>
+Any de construcció|0|Any del cens|0|Superfície total en m2|0|Titularitat|Privada
+</propietats>
+<localitzacio>POINT (2.2872307 41.686096)</localitzacio>
+</row>
+<row _id="row-9py8_y5ip_4txv" _uuid="00000000-0000-0000-C7AC-864F52B0FB47" _position="0" _address="https://analisi.transparenciacatalunya.cat/resource/zzzz-zzzz/row-9py8_y5ip_4txv">
+<idequipament>371595</idequipament>
+<alies>
+Institut Cartogràfic i Geològic de Catalunya. Cartoteca de Catalunya
+</alies>
+<nom>
+Institut Cartogràfic i Geològic de Catalunya. Cartoteca de Catalunya
+</nom>
+<categoria>Cultura|Biblioteques|Especialitzades|</categoria>
+<via>Parc de Montjuïc, s/n</via>
+<cpostal>08038</cpostal>
+<poblacio>Barcelona</poblacio>
+<codi_municipi>080193</codi_municipi>
+<comarca>Barcelonès</comarca>
+<telefon1>93 567 15 00</telefon1>
+<fax>93 567 15 67</fax>
+<utmx>429199.0</utmx>
+<utmy>4580034.0</utmy>
+<longitud>2.153417196</longitud>
+<latitud>41.368706467</latitud>
+<email>cartoteca@icgc.cat</email>
+<web url="http://www.icgc.cat/L-ICGC/Sobre-l-ICGC/Contacte2/Sobre-la-Cartoteca"/>
+<data_modificacio>1632467194</data_modificacio>
+<propietats>
+Accés|Lliure|Especialitats|Cartografia,Excursionisme,Història local,Infraestructura (Economia),Ordenació del territori,Medi ambient,Geologia,Geografia|Horari d'estiu|DL de 09:00 a 14:00<br/>DM de 09:00 a 14:00<br/>DX de 09:00 a 14:00<br/>DJ de 09:00 a 14:00<br/>DV de 09:00 a 14:00<br/>DS Tancat<br/>DG Tancat|Horari d'hivern|DL de 09:00 a 14:00<br/>DM de 09:00 a 14:00<br/>DX de 09:00 a 14:00<br/>DJ de 09:00 a 14:00<br/>DV de 09:00 a 14:00<br/>DS Tancat<br/>DG Tancat|Observacions horari estiu|Agost tancat.|Observacions horari hivern|Tanca durant Setmana Santa i de Nadal a Reis.|Serveis|Cerques a mida per perfils d'usuaris,Consulta a sala,Circulació interna,Difusió selectiva d'informació,Desiderates,Préstec personal,Préstec interbibliotecari|Titularitat|Generalitat
+</propietats>
+<localitzacio>POINT (2.153417 41.368706)</localitzacio>
+</row>
+<row _id="row-utcm-wqq3.ba4g" _uuid="00000000-0000-0000-477B-523C373FA9E8" _position="0" _address="https://analisi.transparenciacatalunya.cat/resource/zzzz-zzzz/row-utcm-wqq3.ba4g">
+<idequipament>371182</idequipament>
+<alies>
+Museu del Disseny de Barcelona. Centre de Documentació
+</alies>
+<nom>
+Museu del Disseny de Barcelona. Centre de Documentació
+</nom>
+<categoria>Cultura|Biblioteques|Especialitzades|</categoria>
+<via>Pl. de les Glòries Catalanes, 37-38</via>
+<cpostal>08018</cpostal>
+<poblacio>Barcelona</poblacio>
+<codi_municipi>080193</codi_municipi>
+<comarca>Barcelonès</comarca>
+<telefon1>93 256 68 30</telefon1>
+<utmx>432078.38</utmx>
+<utmy>4583745.36</utmy>
+<longitud>2.18742712</longitud>
+<latitud>41.402381795</latitud>
+<email>documentacio.mdb@bcn.cat</email>
+<web url="http://ajuntament.barcelona.cat/museudeldisseny/ca/centredoc"/>
+<data_modificacio>1632467178</data_modificacio>
+<propietats>
+Accés|Lliure|Especialitats|Disseny|Horari d'estiu|DL Tancat<br/>DM de 10:00 a 20:00<br/>DX de 10:00 a 20:00<br/>DJ de 15:00 a 20:00<br/>DV de 10:00 a 15:00<br/>DS Tancat<br/>DG Tancat|Horari d'hivern|DL Tancat<br/>DM de 10:00 a 20:00<br/>DX de 10:00 a 20:00<br/>DJ de 15:00 a 20:00<br/>DV de 10:00 a 15:00<br/>DS Tancat<br/>DG Tancat|Observacions horari estiu|Agost: tancat|Serveis|Reprografia,Bookcrossing,Visites guiades,Consulta a sala,Accés a Internet,Accés a recursos electrònics,Alerta de novetats,Informació bibliogràfica,Obtenció de documents,Préstec personal,Préstec interbibliotecari,Renovació de préstec,Reserva de préstec,Carnet d'usuari,Espai Wi-Fi|Titularitat|Adm. local: ajuntament
+</propietats>
+<localitzacio>POINT (2.187427 41.40238)</localitzacio>
+</row>
+<row _id="row-5amn.5shx-n64w" _uuid="00000000-0000-0000-3AAD-36C1412AF479" _position="0" _address="https://analisi.transparenciacatalunya.cat/resource/zzzz-zzzz/row-5amn.5shx-n64w">
+<idequipament>371293</idequipament>
+<alies>
+Universitat Ramon Llull. Escola Superior de Disseny (ESDI)
+</alies>
+<nom>
+Universitat Ramon Llull. Escola Superior de Disseny (ESDI)
+</nom>
+<categoria>Cultura|Biblioteques|Públiques|</categoria>
+<via>C/ Marquès de Comillas, 79-83</via>
+<cpostal>08202</cpostal>
+<poblacio>Sabadell</poblacio>
+<codi_municipi>081878</codi_municipi>
+<comarca>Vallès Occidental</comarca>
+<telefon1>93 727 48 19</telefon1>
+<utmx>426345.59</utmx>
+<utmy>4599451.17</utmy>
+<longitud>2.1169332</longitud>
+<latitud>41.543330282</latitud>
+<email>biblioteca@esdi.edu.es</email>
+<web url="http://www.esdi.url.edu/estudia/servei-estudiants/biblioteca/"/>
+<data_modificacio>1632467174</data_modificacio>
+<propietats>
+Accés|Restringit|Especialitats|Disseny,Humanitats,Art|Horari d'estiu|DL de 08:30 a 20:00<br/>DM de 08:30 a 20:00<br/>DX de 08:30 a 20:00<br/>DJ de 08:30 a 20:00<br/>DV de 08:30 a 20:00<br/>DS Tancat<br/>DG Tancat|Horari d'hivern|DL de 08:30 a 20:00<br/>DM de 08:30 a 20:00<br/>DX de 08:30 a 20:00<br/>DJ de 08:30 a 20:00<br/>DV de 08:30 a 20:00<br/>DS Tancat<br/>DG Tancat|Serveis|Consulta a sala,Desiderates,Difusió selectiva d'informació,Préstec personal,Espai Wi-Fi|Titularitat|Universitat
+</propietats>
+<localitzacio>POINT (2.116933 41.54333)</localitzacio>
+</row>
+<row _id="row-fuhx-jkas-hyss" _uuid="00000000-0000-0000-7253-45802689C161" _position="0" _address="https://analisi.transparenciacatalunya.cat/resource/zzzz-zzzz/row-fuhx-jkas-hyss">
+<idequipament>371233</idequipament>
+<alies>Biblioteca Biblio@teneu</alies>
+<nom>Biblioteca Biblio@teneu</nom>
+<categoria>Cultura|Biblioteques|Públiques|</categoria>
+<via>Pl. de la Vila, s/n</via>
+<cpostal>08105</cpostal>
+<poblacio>Sant Fost de Campsentelles</poblacio>
+<codi_municipi>082093</codi_municipi>
+<comarca>Vallès Oriental</comarca>
+<telefon1>93 579 69 81</telefon1>
+<utmx>435968.01</utmx>
+<utmy>4596629.63</utmy>
+<longitud>2.232589195</longitud>
+<latitud>41.518745868</latitud>
+<email>b.st.fost.b@diba.cat</email>
+<web url="https://bibliotecavirtual.diba.cat/sant-fost-de-campsentelles-biblioateneu"/>
+<data_modificacio>1632467176</data_modificacio>
+<propietats>
+Accés|Lliure|Horari d'estiu|DL de 10:00 a 13:30 i de 15:30 a 20:00<br/>DM de 15:30 a 20:00<br/>DX de 15:30 a 20:00<br/>DJ de 10:00 a 13:30 i de 15:30 a 20:00<br/>DV de 15:30 a 20:00<br/>DS Tancat<br/>DG Tancat|Horari d'hivern|DL de 10:00 a 13:30 i de 15:30 a 20:00<br/>DM de 15:30 a 20:00<br/>DX de 15:30 a 20:00<br/>DJ de 10:00 a 13:30 i de 15:30 a 20:00<br/>DV de 15:30 a 20:00<br/>DS de 10:00 a 13:30<br/>DG Tancat|Període|De l'1 al 31 de juliol|Serveis|Préstec personal,Préstec interbibliotecari,Consulta a sala,Accés a Internet,Accés a programes d'ofimàtica,Centre col·laborador ACTIC,Informació per a nouvinguts,Racó dels pares,Informació local,Renovació de préstec,Reserva de préstec,Desiderates,Activitats de promoció de la biblioteca i foment de la lectura,Clubs de lectura,Espai Wi-Fi,Préstec de llibres electrònics|Titularitat|Adm. local: ajuntament
+</propietats>
+<localitzacio>POINT (2.2325892 41.518745)</localitzacio>
+</row>
+<row _id="row-qevw-ryu8-4r7k" _uuid="00000000-0000-0000-D459-6E2FC3AEF841" _position="0" _address="https://analisi.transparenciacatalunya.cat/resource/zzzz-zzzz/row-qevw-ryu8-4r7k">
+<idequipament>371369</idequipament>
+<alies>Biblioteca de Calaf</alies>
+<nom>Biblioteca de Calaf</nom>
+<categoria>Cultura|Biblioteques|Públiques|</categoria>
+<via>C/ Sant Joan Baptista de la Salle, 6-8</via>
+<cpostal>08280</cpostal>
+<poblacio>Calaf</poblacio>
+<codi_municipi>080312</codi_municipi>
+<comarca>Anoia</comarca>
+<telefon1>93 868 04 14</telefon1>
+<fax>93 868 12 36</fax>
+<utmx>376382.1</utmx>
+<utmy>4620964.12</utmy>
+<longitud>1.513613711</longitud>
+<latitud>41.730878493</latitud>
+<email>a8043395@xtec.cat</email>
+<web url="http://www.calaf.cat/el-municipi/guia-del-municipi/equipaments/biblioteca-de-calaf.html"/>
+<data_modificacio>1632467171</data_modificacio>
+<propietats>
+Accés|Lliure|Horari d'estiu|DL de 10:00 a 13:00 i de 15:30 a 20:00<br/>DM de 15:30 a 20:00<br/>DX de 10:00 a 13:00 i de 15:30 a 20:00<br/>DJ de 15:30 a 20:00<br/>DV de 15:30 a 19:00<br/>DS de 10:00 a 13:00<br/>DG Tancat|Horari d'hivern|DL de 10:00 a 13:00 i de 15:30 a 20:00<br/>DM de 15:30 a 20:00<br/>DX de 10:00 a 13:00 i de 15:30 a 20:00<br/>DJ de 15:30 a 20:00<br/>DV de 15:30 a 19:00<br/>DS de 10:00 a 13:00<br/>DG Tancat|Observacions|Ubicada a l'IES Alexandre de Riquer|Serveis|Consulta a sala,Accés a Internet,Préstec personal|Titularitat|Adm. local: ajuntament
+</propietats>
+<localitzacio>POINT (1.5136137 41.730877)</localitzacio>
+</row>
+<row _id="row-muk4_d97w.t87e" _uuid="00000000-0000-0000-2E43-ED63DC785997" _position="0" _address="https://analisi.transparenciacatalunya.cat/resource/zzzz-zzzz/row-muk4_d97w.t87e">
+<idequipament>1186868</idequipament>
+<alies>Biblioteca Municipal Marta Fàbrega i Romans</alies>
+<nom>Biblioteca Municipal Marta Fàbrega i Romans</nom>
+<categoria>Cultura|Biblioteques|Públiques|</categoria>
+<via>C/ del Forn, 2</via>
+<cpostal>17140</cpostal>
+<poblacio>Sant Pere Pescador</poblacio>
+<codi_municipi>171788</codi_municipi>
+<comarca>Alt Empordà</comarca>
+<telefon1>972 55 01 85</telefon1>
+<utmx>506720.95</utmx>
+<utmy>4670655.66</utmy>
+<longitud>3.081393622</longitud>
+<latitud>42.188022127</latitud>
+<email>biblioteca@santpere.cat</email>
+<web url="http://ca.santpere.cat/biblioteca-municipal-marta-fbrega-romans.html"/>
+<data_modificacio>1632467165</data_modificacio>
+<propietats>
+Accés|Lliure|Horari d'estiu|DL de 16:30 a 20:00<br/>DM de 16:30 a 20:00<br/>DX de 16:30 a 20:00<br/>DJ de 16:30 a 20:00<br/>DV de 16:30 a 20:00<br/>DS Tancat<br/>DG Tancat|Horari d'hivern|DL de 16:00 a 19:30<br/>DM de 16:00 a 19:30<br/>DX de 16:00 a 19:30<br/>DJ de 16:00 a 19:30<br/>DV de 16:00 a 19:30<br/>DS Tancat<br/>DG Tancat|Període|Juliol i agost|Serveis|Cursos i tallers de formació d'usuaris,Consulta a sala,Accés a Internet,Accés a recursos electrònics,Reserva de préstec,Renovació de préstec,Préstec personal,Clubs de lectura,Hores del conte,Espai Wi-Fi|Titularitat|Adm. local: ajuntament
+</propietats>
+<localitzacio>POINT (3.0813937 42.188023)</localitzacio>
+</row>
+<row _id="row-3z6g.zs8n.4ini" _uuid="00000000-0000-0000-0E1E-F0BAE25BEC30" _position="0" _address="https://analisi.transparenciacatalunya.cat/resource/zzzz-zzzz/row-3z6g.zs8n.4ini">
+<idequipament>371406</idequipament>
+<alies>Biblioteca Municipal de Breda</alies>
+<nom>Biblioteca Municipal de Breda</nom>
+<categoria>Cultura|Biblioteques|Públiques|</categoria>
+<via>Av. Verge de Montserrat, 20</via>
+<cpostal>17400</cpostal>
+<poblacio>Breda</poblacio>
+<codi_municipi>170274</codi_municipi>
+<comarca>Selva</comarca>
+<telefon1>972 87 15 70</telefon1>
+<fax>972 87 00 12</fax>
+<utmx>463605.24</utmx>
+<utmy>4621994.46</utmy>
+<longitud>2.56226022</longitud>
+<latitud>41.748939602</latitud>
+<email>biblioteca@breda.cat</email>
+<web url="https://www.bibgirona.cat/biblioteca/breda"/>
+<data_modificacio>1632467169</data_modificacio>
+<propietats>
+Accés|Lliure|Horari d'estiu|DL de 16:00 a 20:00<br/>DM de 16:00 a 20:00<br/>DX de 09:00 a 13:00<br/>DJ de 16:00 a 20:00<br/>DV de 09:00 a 13:00<br/>DS Tancat<br/>DG Tancat|Horari d'hivern|DL de 16:00 a 20:00<br/>DM de 16:00 a 20:00<br/>DX de 10:00 a 13:00 i de 16:00 a 20:00<br/>DJ de 16:00 a 20:00<br/>DV de 16:00 a 20:00<br/>DS de 10:00 a 13:00<br/>DG Tancat|Observacions|Ubicada a la primera planta del Centre Cívic i Social 1 d'Octubre|Serveis|Préstec personal,Consulta a sala,Reprografia,Accés a Internet,Alerta de novetats,Bibliopiscina,Racó dels pares,Renovació de préstec,Reserva de préstec,Hores del conte,Carnet d'usuari,Accés a programes d'ofimàtica,Espai Wi-Fi,Préstec interbibliotecari,Bústia de suggeriments,Exposicions,Préstec de llibres electrònics|Titularitat|Adm. local: ajuntament
+</propietats>
+<localitzacio>POINT (2.5622602 41.74894)</localitzacio>
+</row>
+</response>
