@@ -9,6 +9,7 @@ import mysql from 'mysql'
 
 import log from './utils/log.js'
 import * as query from './utils/query.js'
+import * as utilities from './utils/utilities.js'
 
 app.use(cors())
 app.use(express.json())
@@ -77,6 +78,13 @@ app.get('/env', (req, res) => {
 
 app.get('/api/poblarBD', (req, res) => {
 	query.poblarBD(db).then(response => {
+		//log(response)
+		res.send(response)
+	})
+})
+
+app.get('/api/buscarCoordenadasGPS', (req, res) => {
+	utilities.buscarCoordenadasGPS().then(response => {
 		//log(response)
 		res.send(response)
 	})

@@ -1,5 +1,6 @@
 import fs from 'fs'
 import log from './log.js'
+import {By, Key, Builder} from 'selenium-webdriver'
 
 /**
  * @description Comprueba si el valor introducido es un entero
@@ -89,4 +90,14 @@ export async function csvJSON(archivo){
 		result.push(obj)
 	}
 	return JSON.parse(JSON.stringify(result))
+}
+
+export async function buscarCoordenadasGPS(){
+	let direccion = 'C/ Dos de mayo, 22, 14200, Peñarroya-Pueblonuevo (Córdoba)'
+
+	// Include selenium webdriver 
+	let driver = await new Builder().forBrowser('chrome').build()
+	await driver.get('https://www.coordenadas-gps.com/')
+
+	await driver.findElement(By.name('q')).sendKeys(direccion, Key.RETURN)
 }
