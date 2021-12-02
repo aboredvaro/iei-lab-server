@@ -102,14 +102,12 @@ export async function buscarCoordenadasGPS(){
 	let driver = await new Builder().forBrowser('chrome').build()
 	await driver.get('https://www.coordenadas-gps.com/')
 
-	await driver.executeScript('window.scrollBy(0,750)')
-	await driver.findElement(By.id('address')).sendKeys(direccion, Key.RETURN)
-	await driver.executeScript('window.scrollBy(0,150)')
-
+	await driver.findElement(By.id('address')).clear()
+	await driver.findElement(By.id('address')).sendKeys(direccion, Key.ARROW_RIGHT)
+		.then(driver.executeScript('window.stop()'))
 	await driver.findElement(By.xpath('//*[@id="wrap"]/div[2]/div[3]/div[1]/form[1]/div[2]/div/button')).click()
 
 	let longitude = await driver.findElement(By.xpath('//*[@id="longitude"]')).getAttribute('value')
 	let latitude = await driver.findElement(By.xpath('//*[@id="latitude"]')).getAttribute('value')
-
 	console.log('lat: %s, lng: %s', latitude, longitude)
 }
