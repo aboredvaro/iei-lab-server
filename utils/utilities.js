@@ -119,7 +119,7 @@ export async function csvJSON(archivo){
 export async function buscarCoordenadasGPS(){
 	let direccion = '14200 Peñarroya-Pueblonuevo, Dos de mayo,22'
 	//let direccion = '1B, Camino de Vera, 46022 Valencia, España'
-
+/*
 	// Include selenium webdriver 
 	let driver = await new Builder().forBrowser('chrome').build()
 	await driver.get('https://www.coordenadas-gps.com/')
@@ -140,17 +140,20 @@ export async function buscarCoordenadasGPS(){
 
 	log('lat: ' + latitude + ' - lng: ' + longitude)
 	
-	/*
+*/
 	let driver = await new Builder().forBrowser('chrome').build()
 	log('cargo pagina')
 	await driver.get('https://wego.here.com/')
-	sleep(2500)
+	sleep(3000)
 	log('cargar dirección')
 	await driver.findElement(By.className('input_search')).sendKeys(direccion, Key.RETURN)
-	sleep(2500)
+	sleep(3000)
 	log('buscar coordenadas')
-	let coordenadas = await driver.findElement(By.xpath('/html/body/div[1]/div[6]/div[1]/div/div[4]/div/div/div[2]/div/section[2]/section/div/dl/dd'))[0]
+	//let coordenadas = await driver.findElement(By.xpath('/html/body/div[1]/div[6]/div[1]/div/div[4]/div/div/div[2]/div/section[2]/section/div/dl/dd')).getText()
+	let coordenadas = await driver.findElement(By.xpath('/html/body/div[1]/div[6]/div[1]/div/div[4]/div/div/div[1]/div[2]/div[1]/h1')).getText()
 	log(coordenadas)
-	*/
+
+	//Saliendo
+	await driver.quit()
 
 }
