@@ -120,7 +120,6 @@ export async function buscarCoordenadasGPS(){
 	let direccion = '14200 Peñarroya-Pueblonuevo, Dos de mayo,22'
 	//let direccion = '1B, Camino de Vera, 46022 Valencia, España'
 
-	/*
 	// Include selenium webdriver 
 	let driver = await new Builder().forBrowser('chrome').build()
 	await driver.get('https://www.coordenadas-gps.com/')
@@ -130,14 +129,18 @@ export async function buscarCoordenadasGPS(){
 	await driver.findElement(By.id('address')).sendKeys(direccion, Key.RETURN)
 	await driver.executeScript('window.scrollBy(0,150)')
 	sleep(1000)
-	await driver.findElement(By.xpath('//*[@id="wrap"]/div[2]/div[3]/div[1]/form[1]/div[2]/div/button')).click()
+	await driver.findElement(By.id('address')).clear()
+	await driver.findElement(By.id('address')).sendKeys(direccion, Key.ARROW_RIGHT)
+		.then(driver.executeScript('window.stop()'))
+	await driver.findElement(By.xpath('//*[@id="wrap"]/div[2]/div[3]/div[1]/form[1]/div[2]/div/button'))
+		.click()
 	sleep(1000)
 	let longitude = await driver.findElement(By.xpath('//*[@id="longitude"]')).getAttribute('value')
 	let latitude = await driver.findElement(By.xpath('//*[@id="latitude"]')).getAttribute('value')
 
 	log('lat: ' + latitude + ' - lng: ' + longitude)
-	*/
-
+	
+	/*
 	let driver = await new Builder().forBrowser('chrome').build()
 	log('cargo pagina')
 	await driver.get('https://wego.here.com/')
@@ -148,5 +151,6 @@ export async function buscarCoordenadasGPS(){
 	log('buscar coordenadas')
 	let coordenadas = await driver.findElement(By.xpath('/html/body/div[1]/div[6]/div[1]/div/div[4]/div/div/div[2]/div/section[2]/section/div/dl/dd'))[0]
 	log(coordenadas)
+	*/
 
 }
