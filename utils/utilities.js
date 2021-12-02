@@ -1,5 +1,6 @@
 import fs from 'fs'
 import {By, Key, Builder} from 'selenium-webdriver'
+import log from './log.js'
 
 /**
  * @description Comprueba si el valor introducido es un entero
@@ -30,6 +31,26 @@ export function capitalizarPrimeraLetra(str) {
 export function getNumbersInString(str) {
 	var num = str.toString().replace(/[^0-9]/g, '')
 	return parseInt(num, 10)
+}
+
+/**
+ *  'ATENCIÓN, GITANADA'
+ * Lo que consigo con esto es detener 'mseg ' milisegundos, bloqueando por completo 
+ * la ejecución de todo el código y continuando después de ese tiempo, pero con 
+ * ejecución síncrona.
+ * 
+ * Lo sé, a tomar por culo las ventajas de la asincronía, pero así no peto el servidor
+ * con muchas consultas, y no tengo que hacer ningún for await raro de cojones de 
+ * configurar.
+ * @param {*} mseg 
+ */
+export function sleep(mseg ) {
+	var start = new Date().getTime()
+	for (var i = 0; i < 1e7; i++) {
+		if ((new Date().getTime() - start) > mseg ) {
+			break
+		}
+	}
 }
 
 export function xml2json(xml) { 
@@ -96,20 +117,36 @@ export async function csvJSON(archivo){
 }
 
 export async function buscarCoordenadasGPS(){
-	let direccion = 'C/ Dos de mayo, 22, 14200, Peñarroya-Pueblonuevo (Córdoba)'
+	let direccion = '14200 Peñarroya-Pueblonuevo, Dos de mayo,22'
+	//let direccion = '1B, Camino de Vera, 46022 Valencia, España'
 
+	/*
 	// Include selenium webdriver 
 	let driver = await new Builder().forBrowser('chrome').build()
 	await driver.get('https://www.coordenadas-gps.com/')
-
+	sleep(1000)
 	await driver.executeScript('window.scrollBy(0,750)')
+	sleep(1000)
 	await driver.findElement(By.id('address')).sendKeys(direccion, Key.RETURN)
 	await driver.executeScript('window.scrollBy(0,150)')
-
+	sleep(1000)
 	await driver.findElement(By.xpath('//*[@id="wrap"]/div[2]/div[3]/div[1]/form[1]/div[2]/div/button')).click()
-
+	sleep(1000)
 	let longitude = await driver.findElement(By.xpath('//*[@id="longitude"]')).getAttribute('value')
 	let latitude = await driver.findElement(By.xpath('//*[@id="latitude"]')).getAttribute('value')
 
-	console.log('lat: %s, lng: %s', latitude, longitude)
+	log('lat: ' + latitude + ' - lng: ' + longitude)
+	*/
+
+	let driver = await new Builder().forBrowser('chrome').build()
+	log('cargo pagina')
+	await driver.get('https://wego.here.com/')
+	sleep(2500)
+	log('cargar dirección')
+	await driver.findElement(By.className('input_search')).sendKeys(direccion, Key.RETURN)
+	sleep(2500)
+	log('buscar coordenadas')
+	let coordenadas = await driver.findElement(By.xpath('/html/body/div[1]/div[6]/div[1]/div/div[4]/div/div/div[2]/div/section[2]/section/div/dl/dd'))[0]
+	log(coordenadas)
+
 }

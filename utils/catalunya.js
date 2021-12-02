@@ -89,32 +89,12 @@ async function insertBibliotecaInBD(db, entrada) {
 				resolve('Se han insertado ' + consultaNecesaria +  ' bibliotecas')
 			})
 		})
-		sleep(1500)
+		utilities.sleep(1500)
 		//log('Paquete: ' + i )
 		
 	}
 	return await respuesta
 
-}
-
-/**
- *  'ATENCIÓN, GITANADA'
- * Lo que consigo con esto es detener 'mseg ' milisegundos, bloqueando por completo 
- * la ejecución de todo el código y continuando después de ese tiempo, pero con 
- * ejecución síncrona.
- * 
- * Lo sé, a tomar por culo las ventajas de la asincronía, pero así no peto el servidor
- * con muchas consultas, y no tengo que hacer ningún for await raro de cojones de 
- * configurar.
- * @param {*} mseg 
- */
-function sleep(mseg ) {
-	var start = new Date().getTime()
-	for (var i = 0; i < 1e7; i++) {
-		if ((new Date().getTime() - start) > mseg ) {
-			break
-		}
-	}
 }
 
 async function insertLocalidadInBD(db, entrada) {
