@@ -34,21 +34,21 @@ export async function regenerarBD(db){
 	if ( await dropBiblioteca(db) ) {
 		mensaje += '✅ Se ha podido BORRAR la tabla Biblioteca. \n'
 	} else {
-		flag = false
+		//flag = false
 		mensaje += '❌ Error al BORRAR tabla Biblioteca. \n'
 	}
 
 	if ( await dropLocalidad(db) ) {
 		mensaje += '✅ Se ha podido BORRAR la tabla Localidad. \n'
 	} else {
-		flag = false
+		//flag = false
 		mensaje += '❌ Error al BORRAR tabla Localidad. \n'
 	}
 
 	if ( await dropProvincia(db) ) {
 		mensaje += '✅ Se ha podido BORRAR la tabla Provincia. \n'
 	} else {
-		flag = false
+		//flag = false
 		mensaje += '❌ Error al BORRAR tabla Provincia. \n'
 	}
 

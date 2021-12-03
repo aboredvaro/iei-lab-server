@@ -49,8 +49,8 @@ async function insertBibliotecaInBD(db, entrada) {
 				insertar += '"' + direccion + '", '
 				insertar += codigoPostal + ', '
 				insertar += entrada[i].COD_MUNICIPIO + ', '
-				insertar += res.lat + ', '
-				insertar += res.lon + ', '
+				insertar += (utilities.getNumber(res.lat) == -1 ? 'null' : res.lat)  + ', '
+				insertar += (utilities.getNumber(res.lon) == -1 ? 'null' : res.lon)  + ', '
 
 				let telfno = entrada[i].TELEFONO
 				if (telfno.indexOf('-') !== -1) {
