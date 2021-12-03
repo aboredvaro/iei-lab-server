@@ -29,6 +29,7 @@ async function insertBibliotecaInBD(db, entrada) {
 	var insertar = 'INSERT INTO biblioteca (nombre, tipo, direccion, codigoPostal, codigoLocalidad, longitud, latitud, telefono, email) VALUES '
 	var consultaNecesaria=0
 	const sql = async() => {
+		log('\n')
 		for (var i = 0; i < entrada.length; i++) {
 
 			let codigoPostal = utilities.getNumber(entrada[i].CP)
@@ -41,6 +42,8 @@ async function insertBibliotecaInBD(db, entrada) {
 			const direccion = utilities.capitalizarPrimeraLetra(entrada[i].DIRECCION)
 			log(`📍 (${i+1}/${entrada.length}) Obteniendo coordenadas para la dirección: ${direccion}, ${codigoPostal}, ${entrada[i].NOM_MUNICIPIO}`)
 			await utilities.buscarCoordenadasGPS(`${direccion.replace(/\sNº|\snº/g, '')}, ${codigoPostal}, ${entrada[i].NOM_MUNICIPIO}`).then(res  => {
+				log(`🧭 Coordenadas obtenidas = (Latitud: ${res.lat}, Longitud: ${res.lon})\n`)
+				
 				insertar += '("' + utilities.clearString(utilities.capitalizarPrimeraLetra(entrada[i].NOMBRE)) + '", '
 				insertar += '"' + utilities.clearString(utilities.capitalizarPrimeraLetra(entrada[i].TIPO)) + '", '
 				insertar += '"' + direccion + '", '
@@ -73,18 +76,18 @@ async function insertBibliotecaInBD(db, entrada) {
 				consultaNecesaria++
 			})
 		}
+		log('\n')
 		return insertar.substring(0, insertar.length - 2) + '; '
 	}
 
-	await sql().then(res => {
+	return await sql().then(res => {
 		return new Promise(resolve => {
-        
 			db.query(res, (err, result) => {
 				if (err) {
 					console.log(err)
 					resolve('Error al insertar Bibliotecas')
 				}
-				resolve('Se han insertado ' + consultaNecesaria +  ' bibliotecas')
+				resolve('✅ Se han insertado ' + consultaNecesaria +  ' bibliotecas')
 			})
 		})
 	})

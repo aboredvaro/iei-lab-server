@@ -130,9 +130,10 @@ export async function buscarCoordenadasGPS(location) {
 
 	let driver = await new Builder().forBrowser('chrome').build()
 	await driver.get('https://www.itilog.com/')
-	sleep(8000)
-	await driver.findElement(By.id('address')).sendKeys(location, Key.RETURN)
 	sleep(1500)
+	await driver.findElement(By.id('address')).sendKeys(location)
+	await driver.findElement(By.id('address_to_map')).sendKeys(Key.RETURN)
+	sleep(500)
 	const lat = await driver.findElement(By.id('latitude')).getAttribute('value')
 	const lon = await driver.findElement(By.id('longitude')).getAttribute('value')
 	await driver.quit()
