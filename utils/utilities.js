@@ -116,21 +116,30 @@ export async function csvJSON(archivo){
 	return JSON.parse(JSON.stringify(result))
 }
 
-export async function buscarCoordenadasGPS(location, sleep) {
+export async function buscarCoordenadasGPS(location) {
+	// let driver = await new Builder().forBrowser('chrome').build()
+	// await driver.get('https://wego.here.com/')
+	// sleep(2000)
+	// await driver.findElement(By.className('input_search')).sendKeys(location, Key.RETURN)
+	// sleep(2000)
+	// await driver.findElement(By.xpath('/html/body/div[1]/div[6]/div[1]/div/div[4]/div/div/div[1]/div[3]/div/div[1]/button')).sendKeys(Key.RETURN)
+	// sleep(100)
+	// let coordenadas = await driver.findElement(By.xpath('/html/body/div[1]/div[6]/div[1]/div/div[4]/div/div/div[2]/div/section[2]/section/div/dl/dd')).getText()
+	// coordenadas = coordenadas.split(',')
+	// await driver.quit()
+
 	let driver = await new Builder().forBrowser('chrome').build()
-	await driver.get('https://wego.here.com/')
-	sleep(sleep ? sleep : 2000)
-	await driver.findElement(By.className('input_search')).sendKeys(location, Key.RETURN)
-	sleep(sleep ? sleep : 2000)
-	await driver.findElement(By.xpath('/html/body/div[1]/div[6]/div[1]/div/div[4]/div/div/div[1]/div[3]/div/div[1]/button')).sendKeys(Key.RETURN)
-	sleep(100)
-	let coordenadas = await driver.findElement(By.xpath('/html/body/div[1]/div[6]/div[1]/div/div[4]/div/div/div[2]/div/section[2]/section/div/dl/dd')).getText()
-	coordenadas = coordenadas.split(',')
+	await driver.get('https://www.itilog.com/')
+	sleep(8000)
+	await driver.findElement(By.id('address')).sendKeys(location, Key.RETURN)
+	sleep(1500)
+	const lat = await driver.findElement(By.id('latitude')).getAttribute('value')
+	const lon = await driver.findElement(By.id('longitude')).getAttribute('value')
 	await driver.quit()
 
 	const json = {
-		'lat': coordenadas[0],
-		'lon': coordenadas[1]
+		'lat': lat,
+		'lon': lon
 	}
 	return json
 }

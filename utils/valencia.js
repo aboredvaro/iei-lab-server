@@ -5,7 +5,7 @@ import log from './log.js'
 import * as utilities from './utilities.js'
 import * as query from './query.js'
 
-export async function insertCSV(db, sleep) {
+export async function insertCSV(db) {
 
 	var json = await utilities.csvJSON('./fuente/valencia.csv')
 
@@ -18,71 +18,76 @@ export async function insertCSV(db, sleep) {
 	resultado += await insertLocalidadInBD(db, json) + ' de Valencia'
 	resultado += '\n'
 	log('⏳ Insertando Bibliotecas de Valencia')
-	resultado += await insertBibliotecaInBD(db, json, sleep) + ' de Valencia'
+	resultado += await insertBibliotecaInBD(db, json) + ' de Valencia'
 	log(resultado)
 	return resultado
 }
 
-async function insertBibliotecaInBD(db, entrada, sleep) {
+async function insertBibliotecaInBD(db, entrada) {
   
 	// Crea un string con la consulta de las provincias que no están ya en la BD
 	var insertar = 'INSERT INTO biblioteca (nombre, tipo, direccion, codigoPostal, codigoLocalidad, longitud, latitud, telefono, email) VALUES '
 	var consultaNecesaria=0
-	for (var i = 0; i < entrada.length; i++) {
+	const sql = async() => {
+		for (var i = 0; i < entrada.length; i++) {
 
-		let codigoPostal = utilities.getNumber(entrada[i].CP)
-		if (codigoPostal !== -1 ) {
-			if (codigoPostal < 1000) {
-				codigoPostal = codigoPostal*1000
+			let codigoPostal = utilities.getNumber(entrada[i].CP)
+			if (codigoPostal !== -1 ) {
+				if (codigoPostal < 1000) {
+					codigoPostal = codigoPostal*1000
+				}
 			}
+
+			const direccion = utilities.capitalizarPrimeraLetra(entrada[i].DIRECCION)
+			log(`📍 (${i+1}/${entrada.length}) Obteniendo coordenadas para la dirección: ${direccion}, ${codigoPostal}, ${entrada[i].NOM_MUNICIPIO}`)
+			await utilities.buscarCoordenadasGPS(`${direccion.replace(/\sNº|\snº/g, '')}, ${codigoPostal}, ${entrada[i].NOM_MUNICIPIO}`).then(res  => {
+				insertar += '("' + utilities.clearString(utilities.capitalizarPrimeraLetra(entrada[i].NOMBRE)) + '", '
+				insertar += '"' + utilities.clearString(utilities.capitalizarPrimeraLetra(entrada[i].TIPO)) + '", '
+				insertar += '"' + direccion + '", '
+				insertar += codigoPostal + ', '
+				insertar += entrada[i].COD_MUNICIPIO + ', '
+				insertar += res.lat + ', '
+				insertar += res.lon + ', '
+
+				let telfno = entrada[i].TELEFONO
+				if (telfno.indexOf('-') !== -1) {
+					telfno = telfno.substring(0, telfno.indexOf('-'))
+				}
+				if (telfno.indexOf('/') !== -1) {
+					telfno = telfno.substring(0, telfno.indexOf('/'))
+				}
+				if (telfno.indexOf(' E') !== -1) {
+					telfno = telfno.substring(0, telfno.indexOf(' E'))
+				}
+				if (telfno.indexOf(' A') !== -1) {
+					telfno = telfno.substring(0, telfno.indexOf(' A'))
+				}
+				telfno = utilities.getNumbersInString(telfno)
+				if ( isNaN(telfno) ) {
+					telfno = 'null'
+				}
+
+				insertar += telfno + ', '
+				insertar += '"' + utilities.capitalizarPrimeraLetra(entrada[i].EMAIL) + '"'
+				insertar += '), '
+				consultaNecesaria++
+			})
 		}
+		return insertar.substring(0, insertar.length - 2) + '; '
+	}
 
-		const direccion = utilities.capitalizarPrimeraLetra(entrada[i].DIRECCION)
-		await utilities.buscarCoordenadasGPS(direccion, sleep).then(res  => {
-			insertar += '("' + utilities.clearString(utilities.capitalizarPrimeraLetra(entrada[i].NOMBRE)) + '", '
-			insertar += '"' + utilities.clearString(utilities.capitalizarPrimeraLetra(entrada[i].TIPO)) + '", '
-			insertar += '"' + direccion + '", '
-			insertar += codigoPostal + ', '
-			insertar += entrada[i].COD_MUNICIPIO + ', '
-			insertar += res.lat + ', '
-			insertar += res.lon + ', '
-
-			let telfno = entrada[i].TELEFONO
-			if (telfno.indexOf('-') !== -1) {
-				telfno = telfno.substring(0, telfno.indexOf('-'))
-			}
-			if (telfno.indexOf('/') !== -1) {
-				telfno = telfno.substring(0, telfno.indexOf('/'))
-			}
-			if (telfno.indexOf(' E') !== -1) {
-				telfno = telfno.substring(0, telfno.indexOf(' E'))
-			}
-			if (telfno.indexOf(' A') !== -1) {
-				telfno = telfno.substring(0, telfno.indexOf(' A'))
-			}
-			telfno = utilities.getNumbersInString(telfno)
-			if ( isNaN(telfno) ) {
-				telfno = 'null'
-			}
-
-			insertar += telfno + ', '
-			insertar += '"' + utilities.capitalizarPrimeraLetra(entrada[i].EMAIL) + '"'
-			insertar += '), '
-			insertar = insertar.substring(0, insertar.length - 2) + '; '
-			consultaNecesaria++
-
-			return new Promise(resolve => {
+	await sql().then(res => {
+		return new Promise(resolve => {
         
-				db.query(insertar, (err, result) => {
-					if (err) {
-						console.log(err)
-						resolve('Error al insertar Bibliotecas')
-					}
-					resolve('Se han insertado ' + consultaNecesaria +  ' bibliotecas')
-				})
+			db.query(res, (err, result) => {
+				if (err) {
+					console.log(err)
+					resolve('Error al insertar Bibliotecas')
+				}
+				resolve('Se han insertado ' + consultaNecesaria +  ' bibliotecas')
 			})
 		})
-	}
+	})
 }
 
 async function insertLocalidadInBD(db, entrada) {

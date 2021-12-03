@@ -147,7 +147,7 @@ async function createLocalidad(db){
 }
 
 async function createBiblioteca(db){
-	var consulta = 'CREATE TABLE biblioteca (id INT AUTO_INCREMENT, nombre VARCHAR(200), tipo VARCHAR(200) NOT NULL, direccion VARCHAR(200) NOT NULL, codigoPostal INT NOT NULL, codigoLocalidad INT NOT NULL, longitud DOUBLE NOT NULL, latitud DOUBLE NOT NULL, telefono VARCHAR(30), email VARCHAR(100) NOT NULL, descripcion VARCHAR(500), PRIMARY KEY(id), FOREIGN KEY (codigoPostal) REFERENCES localidad (codigo)); '
+	var consulta = 'CREATE TABLE biblioteca (id INT AUTO_INCREMENT, nombre VARCHAR(500), tipo VARCHAR(500) NOT NULL, direccion VARCHAR(500) NOT NULL, codigoPostal INT NOT NULL, codigoLocalidad INT NOT NULL, longitud DOUBLE, latitud DOUBLE, telefono VARCHAR(100), email VARCHAR(300) NOT NULL, descripcion VARCHAR(1000), PRIMARY KEY(id), FOREIGN KEY (codigoPostal) REFERENCES localidad (codigo)); '
 	//log(consulta)
 	return new Promise(resolve => {
 		db.query(consulta, (err) => {
@@ -184,6 +184,6 @@ export async function poblarBD(db){
 		return '❌ ¡Error al insertar datos de Valencia!'
 	}
 	log('\n🎉 LOS DATOS DE TODAS LAS BD SE HAN INSERTADO CON ÉXITO')
-	return '¡Todo Ok!'
+	return '🎉 LOS DATOS DE TODAS LAS BD SE HAN INSERTADO CON ÉXITO'
 
 }

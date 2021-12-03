@@ -77,7 +77,7 @@ app.get('/env', (req, res) => {
 //  //  //  //  //
 
 app.get('/api/poblarBD', (req, res) => {
-	query.poblarBD(db, req.body.sleep).then(response => {
+	query.poblarBD(db).then(response => {
 		//log(response)
 		res.send(response)
 	})
