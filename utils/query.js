@@ -77,7 +77,7 @@ export async function regenerarBD(db){
 }
 
 async function dropBiblioteca(db){
-	var consulta = 'DROP TABLE biblioteca; '
+	var consulta = 'DROP TABLE IF EXISTS biblioteca; '
 	//log(consulta)
 	return new Promise(resolve => {
 		db.query(consulta, (err) => {
@@ -91,7 +91,7 @@ async function dropBiblioteca(db){
 }
 
 async function dropProvincia(db){
-	var consulta = 'DROP TABLE provincia; '
+	var consulta = 'DROP TABLE IF EXISTS provincia; '
 	//log(consulta)
 	return new Promise(resolve => {
 		db.query(consulta, (err) => {
@@ -105,7 +105,7 @@ async function dropProvincia(db){
 }
 
 async function dropLocalidad(db){
-	var consulta = 'DROP TABLE localidad; '
+	var consulta = 'DROP TABLE IF EXISTS localidad; '
 	//log(consulta)
 	return new Promise(resolve => {
 		db.query(consulta, (err) => {
