@@ -8,13 +8,13 @@ import * as query from './query.js'
 export async function insertJSON(db) {
 	//log(euskadi)
 	var resultado = ''
-	log('Insertando provincias de Euskadi')
+	log('⏳ Insertando provincias de Euskadi')
 	resultado += await insertarProvinciaInBD(db, euskadi) + ' de Euskadi'
 	resultado += '\n'
-	log('Insertando localidades de Euskadi')
+	log('⏳ Insertando localidades de Euskadi')
 	resultado += await insertLocalidadInBD(db, euskadi) + ' de Euskadi'
 	resultado += '\n'
-	log('Insertando bibliotecas de Euskadi')
+	log('⏳ Insertando bibliotecas de Euskadi')
 	resultado += await insertBibliotecaInBD(db, euskadi) + ' de Euskadi'
 	log(resultado)
 	return true
@@ -38,7 +38,7 @@ async function insertBibliotecaInBD(db, entrada) {
 		insertar += codigoPostal%1000 + ', '
 		insertar += parseFloat(entrada[i].lonwgs84) + ', '
 		insertar += parseFloat(entrada[i].latwgs84) + ', '
-		insertar += (!isNaN(parseInt(entrada[i].phone.replace(/\s/g, '')))) ? parseInt(entrada[i].phone.replace(/\s/g, '')) + ', ' :  'null, '
+		insertar += (!isNaN(parseInt(entrada[i].phone.replace(/\s/g, '')))) ? parseInt(entrada[i].phone.replace(/\s/g, '').substring(0,8)) + ', ' :  'null, '
 		insertar += '"' + entrada[i].email + '"'
 		insertar += '), '
 		consultaNecesaria++
@@ -50,7 +50,7 @@ async function insertBibliotecaInBD(db, entrada) {
 				console.log(err)
 				resolve('Error al insertar Bibliotecas')
 			}
-			resolve('Se han insertado ' + consultaNecesaria +  ' bibliotecas')
+			resolve('✅ Se han insertado ' + consultaNecesaria +  ' bibliotecas')
 		})
 	})
 
@@ -99,7 +99,7 @@ async function insertLocalidadInBD(db, entrada) {
 					console.log(err)
 					resolve('Error al insertar Localidades')
 				}
-				resolve('Se han insertado ' + consultaNecesaria +  ' localidades')
+				resolve('✅ Se han insertado ' + consultaNecesaria +  ' localidades')
 			})
 		})
 	}
@@ -150,7 +150,7 @@ async function insertarProvinciaInBD(db, entrada) {
 					console.log(err)
 					resolve('Error al insertar Provincias')
 				}
-				resolve('Se han insertado ' + consultaNecesaria +  ' provincias')
+				resolve('✅ Se han insertado ' + consultaNecesaria +  ' provincias')
 			})
 		})
 	}

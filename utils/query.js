@@ -34,40 +34,43 @@ export async function regenerarBD(db){
 	if ( await dropBiblioteca(db) ) {
 		mensaje += '✅ Se ha podido BORRAR la tabla Biblioteca. \n'
 	} else {
-		mensaje += '⛔️ Error al BORRAR tabla Biblioteca. \n'
+		flag = false
+		mensaje += '❌ Error al BORRAR tabla Biblioteca. \n'
 	}
 
 	if ( await dropLocalidad(db) ) {
 		mensaje += '✅ Se ha podido BORRAR la tabla Localidad. \n'
 	} else {
-		mensaje += '⛔️ Error al BORRAR tabla Localidad. \n'
+		flag = false
+		mensaje += '❌ Error al BORRAR tabla Localidad. \n'
 	}
 
 	if ( await dropProvincia(db) ) {
 		mensaje += '✅ Se ha podido BORRAR la tabla Provincia. \n'
 	} else {
-		mensaje += '⛔️ Error al BORRAR tabla Provincia. \n'
+		flag = false
+		mensaje += '❌ Error al BORRAR tabla Provincia. \n'
 	}
 
 	if ( await createProvincia(db) ) {
 		mensaje += '✅ Se ha podido CREAR la tabla Provincia. \n'
 	} else {
 		flag = false
-		mensaje += '⛔️ Error al CREAR tabla Provincia. \n'
+		mensaje += '❌ Error al CREAR tabla Provincia. \n'
 	}
 
 	if ( await createLocalidad(db) ) {
 		mensaje += '✅ Se ha podido CREAR la tabla Localidad. \n'
 	} else {
 		flag = false
-		mensaje += '⛔️ Error al CREAR tabla Localidad. \n'
+		mensaje += '❌ Error al CREAR tabla Localidad. \n'
 	}
 
 	if ( await createBiblioteca(db) ) {
 		mensaje += '✅ Se ha podido CREAR la tabla Biblioteca. \n'
 	} else {
 		flag = false
-		mensaje += '⛔️ Error al CREAR tabla Biblioteca. \n'
+		mensaje += '❌ Error al CREAR tabla Biblioteca. \n'
 	}
 	log(mensaje)
 	return flag 
@@ -144,7 +147,7 @@ async function createLocalidad(db){
 }
 
 async function createBiblioteca(db){
-	var consulta = 'CREATE TABLE biblioteca (id INT AUTO_INCREMENT, nombre VARCHAR(200), tipo VARCHAR(200) NOT NULL, direccion VARCHAR(200) NOT NULL, codigoPostal INT NOT NULL, codigoLocalidad INT NOT NULL, longitud DOUBLE NOT NULL, latitud DOUBLE NOT NULL, telefono INT(30), email VARCHAR(100) NOT NULL, descripcion VARCHAR(500), PRIMARY KEY(id), FOREIGN KEY (codigoPostal) REFERENCES localidad (codigo)); '
+	var consulta = 'CREATE TABLE biblioteca (id INT AUTO_INCREMENT, nombre VARCHAR(200), tipo VARCHAR(200) NOT NULL, direccion VARCHAR(200) NOT NULL, codigoPostal INT NOT NULL, codigoLocalidad INT NOT NULL, longitud DOUBLE NOT NULL, latitud DOUBLE NOT NULL, telefono VARCHAR(30), email VARCHAR(100) NOT NULL, descripcion VARCHAR(500), PRIMARY KEY(id), FOREIGN KEY (codigoPostal) REFERENCES localidad (codigo)); '
 	//log(consulta)
 	return new Promise(resolve => {
 		db.query(consulta, (err) => {
@@ -157,27 +160,30 @@ async function createBiblioteca(db){
 	})
 }
 
-export async function poblarBD(db, sleep){
-	log('\nRegenerando la BD')
+export async function poblarBD(db){
+	log('\n')
+	log('_________________________________________')
+	log('\n')
+	log('\n⏳ Regenerando la BD')
 	if ( ! (await regenerarBD(db)) ){
-		return '¡Error al regenerar BD!'
+		return '❌ ¡Error al regenerar BD!'
 	}
 
 	log('\nInsertar datos de Euskadi')
 	if ( ! (await euskadi.insertJSON(db)) ){
-		return '¡Error al insertar datos de Euskadi!'
+		return '❌ ¡Error al insertar datos de Euskadi!'
 	}
 
 	log('\nInsertar datos de Catalunya')
 	if ( ! (await catalunya.insertXML(db)) ){
-		return '¡Error al insertar datos de Catalunya!'
+		return '❌ ¡Error al insertar datos de Catalunya!'
 	}
 
-	log('\nInsertar datos de Valencia', sleep)
-	if ( ! (await valencia.insertCSV(db, sleep)) ){
-		return '¡Error al insertar datos de Valencia!'
+	log('\nInsertar datos de Valencia')
+	if ( ! (await valencia.insertCSV(db)) ){
+		return '❌ ¡Error al insertar datos de Valencia!'
 	}
-	log('\nSi no hay nada troncho que moleste, enhorabuena, está todo bien')
+	log('\n🎉 LOS DATOS DE TODAS LAS BD SE HAN INSERTADO CON ÉXITO')
 	return '¡Todo Ok!'
 
 }
