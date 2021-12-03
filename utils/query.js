@@ -32,45 +32,42 @@ export async function regenerarBD(db){
 	var flag = true
 	var mensaje = ''
 	if ( await dropBiblioteca(db) ) {
-		mensaje += 'Se ha podido BORRAR la tabla Biblioteca. \n'
+		mensaje += '✅ Se ha podido BORRAR la tabla Biblioteca. \n'
 	} else {
-		flag = false
-		mensaje += 'Error al BORRAR tabla Biblioteca. \n'
+		mensaje += '⛔️ Error al BORRAR tabla Biblioteca. \n'
 	}
 
 	if ( await dropLocalidad(db) ) {
-		mensaje += 'Se ha podido BORRAR la tabla Localidad. \n'
+		mensaje += '✅ Se ha podido BORRAR la tabla Localidad. \n'
 	} else {
-		flag = false
-		mensaje += 'Error al BORRAR tabla Localidad. \n'
+		mensaje += '⛔️ Error al BORRAR tabla Localidad. \n'
 	}
 
 	if ( await dropProvincia(db) ) {
-		mensaje += 'Se ha podido BORRAR la tabla Provincia. \n'
+		mensaje += '✅ Se ha podido BORRAR la tabla Provincia. \n'
 	} else {
-		flag = false
-		mensaje += 'Error al BORRAR tabla Provincia. \n'
+		mensaje += '⛔️ Error al BORRAR tabla Provincia. \n'
 	}
 
 	if ( await createProvincia(db) ) {
-		mensaje += 'Se ha podido CREAR la tabla Provincia. \n'
+		mensaje += '✅ Se ha podido CREAR la tabla Provincia. \n'
 	} else {
 		flag = false
-		mensaje += 'Error al CREAR tabla Provincia. \n'
+		mensaje += '⛔️ Error al CREAR tabla Provincia. \n'
 	}
 
 	if ( await createLocalidad(db) ) {
-		mensaje += 'Se ha podido CREAR la tabla Localidad. \n'
+		mensaje += '✅ Se ha podido CREAR la tabla Localidad. \n'
 	} else {
 		flag = false
-		mensaje += 'Error al CREAR tabla Localidad. \n'
+		mensaje += '⛔️ Error al CREAR tabla Localidad. \n'
 	}
 
 	if ( await createBiblioteca(db) ) {
-		mensaje += 'Se ha podido CREAR la tabla Biblioteca. \n'
+		mensaje += '✅ Se ha podido CREAR la tabla Biblioteca. \n'
 	} else {
 		flag = false
-		mensaje += 'Error al CREAR tabla Biblioteca. \n'
+		mensaje += '⛔️ Error al CREAR tabla Biblioteca. \n'
 	}
 	log(mensaje)
 	return flag 
@@ -160,7 +157,7 @@ async function createBiblioteca(db){
 	})
 }
 
-export async function poblarBD(db){
+export async function poblarBD(db, sleep){
 	log('\nRegenerando la BD')
 	if ( ! (await regenerarBD(db)) ){
 		return '¡Error al regenerar BD!'
@@ -176,8 +173,8 @@ export async function poblarBD(db){
 		return '¡Error al insertar datos de Catalunya!'
 	}
 
-	log('\nInsertar datos de Valencia')
-	if ( ! (await valencia.insertCSV(db)) ){
+	log('\nInsertar datos de Valencia', sleep)
+	if ( ! (await valencia.insertCSV(db, sleep)) ){
 		return '¡Error al insertar datos de Valencia!'
 	}
 	log('\nSi no hay nada troncho que moleste, enhorabuena, está todo bien')

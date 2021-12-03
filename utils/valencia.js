@@ -5,7 +5,7 @@ import log from './log.js'
 import * as utilities from './utilities.js'
 import * as query from './query.js'
 
-export async function insertCSV(db) {
+export async function insertCSV(db, sleep) {
 
 	var json = await utilities.csvJSON('./fuente/valencia.csv')
 
@@ -18,66 +18,71 @@ export async function insertCSV(db) {
 	resultado += await insertLocalidadInBD(db, json) + ' de Valencia'
 	resultado += '\n'
 	log('Insertando Bibliotecas de Valencia')
-	resultado += await insertBibliotecaInBD(db, json) + ' de Valencia'
+	resultado += await insertBibliotecaInBD(db, json, sleep) + ' de Valencia'
 	log(resultado)
 	return resultado
 }
 
-async function insertBibliotecaInBD(db, entrada) {
+async function insertBibliotecaInBD(db, entrada, sleep) {
   
 	// Crea un string con la consulta de las provincias que no están ya en la BD
 	var insertar = 'INSERT INTO biblioteca (nombre, tipo, direccion, codigoPostal, codigoLocalidad, longitud, latitud, telefono, email) VALUES '
 	var consultaNecesaria=0
 	for (var i = 0; i < entrada.length; i++) {
+
 		let codigoPostal = utilities.getNumber(entrada[i].CP)
 		if (codigoPostal !== -1 ) {
 			if (codigoPostal < 1000) {
 				codigoPostal = codigoPostal*1000
 			}
 		}
-		insertar += '("' + utilities.clearString(utilities.capitalizarPrimeraLetra(entrada[i].NOMBRE)) + '", '
-		insertar += '"' + utilities.clearString(utilities.capitalizarPrimeraLetra(entrada[i].TIPO)) + '", '
-		insertar += '"' + utilities.capitalizarPrimeraLetra(entrada[i].DIRECCION) + '", '
-		insertar += codigoPostal + ', '
-		insertar += entrada[i].COD_MUNICIPIO + ', '
-		insertar += 0 + ', '
-		insertar += 0 + ', '
 
-		let telfno = entrada[i].TELEFONO
-		if (telfno.indexOf('-') !== -1) {
-			telfno = telfno.substring(0, telfno.indexOf('-'))
-		}
-		if (telfno.indexOf('/') !== -1) {
-			telfno = telfno.substring(0, telfno.indexOf('/'))
-		}
-		if (telfno.indexOf(' E') !== -1) {
-			telfno = telfno.substring(0, telfno.indexOf(' E'))
-		}
-		if (telfno.indexOf(' A') !== -1) {
-			telfno = telfno.substring(0, telfno.indexOf(' A'))
-		}
-		telfno = utilities.getNumbersInString(telfno)
-		if ( isNaN(telfno) ) {
-			telfno = 'null'
-		}
+		const direccion = utilities.capitalizarPrimeraLetra(entrada[i].DIRECCION)
+		await utilities.buscarCoordenadasGPS(direccion, sleep).then(res  => {
+			insertar += '("' + utilities.clearString(utilities.capitalizarPrimeraLetra(entrada[i].NOMBRE)) + '", '
+			insertar += '"' + utilities.clearString(utilities.capitalizarPrimeraLetra(entrada[i].TIPO)) + '", '
+			insertar += '"' + direccion + '", '
+			insertar += codigoPostal + ', '
+			insertar += entrada[i].COD_MUNICIPIO + ', '
+			insertar += res.lat + ', '
+			insertar += res.lon + ', '
 
-		insertar += telfno + ', '
-		insertar += '"' + utilities.capitalizarPrimeraLetra(entrada[i].EMAIL) + '"'
-		insertar += '), '
-		consultaNecesaria++
-	}
-	insertar = insertar.substring(0, insertar.length - 2) + '; '
-	return new Promise(resolve => {
-        
-		db.query(insertar, (err, result) => {
-			if (err) {
-				console.log(err)
-				resolve('Error al insertar Bibliotecas')
+			let telfno = entrada[i].TELEFONO
+			if (telfno.indexOf('-') !== -1) {
+				telfno = telfno.substring(0, telfno.indexOf('-'))
 			}
-			resolve('Se han insertado ' + consultaNecesaria +  ' bibliotecas')
-		})
-	})
+			if (telfno.indexOf('/') !== -1) {
+				telfno = telfno.substring(0, telfno.indexOf('/'))
+			}
+			if (telfno.indexOf(' E') !== -1) {
+				telfno = telfno.substring(0, telfno.indexOf(' E'))
+			}
+			if (telfno.indexOf(' A') !== -1) {
+				telfno = telfno.substring(0, telfno.indexOf(' A'))
+			}
+			telfno = utilities.getNumbersInString(telfno)
+			if ( isNaN(telfno) ) {
+				telfno = 'null'
+			}
 
+			insertar += telfno + ', '
+			insertar += '"' + utilities.capitalizarPrimeraLetra(entrada[i].EMAIL) + '"'
+			insertar += '), '
+			insertar = insertar.substring(0, insertar.length - 2) + '; '
+			consultaNecesaria++
+
+			return new Promise(resolve => {
+        
+				db.query(insertar, (err, result) => {
+					if (err) {
+						console.log(err)
+						resolve('Error al insertar Bibliotecas')
+					}
+					resolve('Se han insertado ' + consultaNecesaria +  ' bibliotecas')
+				})
+			})
+		})
+	}
 }
 
 async function insertLocalidadInBD(db, entrada) {
