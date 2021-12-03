@@ -116,41 +116,21 @@ export async function csvJSON(archivo){
 	return JSON.parse(JSON.stringify(result))
 }
 
-export async function buscarCoordenadasGPS(){
-	let direccion = '14200 Peñarroya-Pueblonuevo, Dos de mayo,22'
-	//let direccion = '1B, Camino de Vera, 46022 Valencia, España'
-
-	// Include selenium webdriver 
+export async function buscarCoordenadasGPS(location, sleep) {
 	let driver = await new Builder().forBrowser('chrome').build()
-	await driver.get('https://www.coordenadas-gps.com/')
-	sleep(1000)
-	await driver.executeScript('window.scrollBy(0,750)')
-	sleep(1000)
-	await driver.findElement(By.id('address')).sendKeys(direccion, Key.RETURN)
-	await driver.executeScript('window.scrollBy(0,150)')
-	sleep(1000)
-	await driver.findElement(By.id('address')).clear()
-	await driver.findElement(By.id('address')).sendKeys(direccion, Key.ARROW_RIGHT)
-		.then(driver.executeScript('window.stop()'))
-	await driver.findElement(By.xpath('//*[@id="wrap"]/div[2]/div[3]/div[1]/form[1]/div[2]/div/button'))
-		.click()
-	sleep(1000)
-	let longitude = await driver.findElement(By.xpath('//*[@id="longitude"]')).getAttribute('value')
-	let latitude = await driver.findElement(By.xpath('//*[@id="latitude"]')).getAttribute('value')
-
-	log('lat: ' + latitude + ' - lng: ' + longitude)
-	
-	/*
-	let driver = await new Builder().forBrowser('chrome').build()
-	log('cargo pagina')
 	await driver.get('https://wego.here.com/')
-	sleep(2500)
-	log('cargar dirección')
-	await driver.findElement(By.className('input_search')).sendKeys(direccion, Key.RETURN)
-	sleep(2500)
-	log('buscar coordenadas')
-	let coordenadas = await driver.findElement(By.xpath('/html/body/div[1]/div[6]/div[1]/div/div[4]/div/div/div[2]/div/section[2]/section/div/dl/dd'))[0]
-	log(coordenadas)
-	*/
+	sleep(sleep ? sleep : 2000)
+	await driver.findElement(By.className('input_search')).sendKeys(location, Key.RETURN)
+	sleep(sleep ? sleep : 2000)
+	await driver.findElement(By.xpath('/html/body/div[1]/div[6]/div[1]/div/div[4]/div/div/div[1]/div[3]/div/div[1]/button')).sendKeys(Key.RETURN)
+	sleep(100)
+	let coordenadas = await driver.findElement(By.xpath('/html/body/div[1]/div[6]/div[1]/div/div[4]/div/div/div[2]/div/section[2]/section/div/dl/dd')).getText()
+	coordenadas = coordenadas.split(',')
+	await driver.quit()
 
+	const json = {
+		'lat': coordenadas[0],
+		'lon': coordenadas[1]
+	}
+	return json
 }

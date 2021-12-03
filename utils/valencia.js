@@ -58,7 +58,7 @@ async function insertBibliotecaInBD(db, entrada) {
 		}
 		telfno = utilities.getNumbersInString(telfno)
 		if ( isNaN(telfno) ) {
-			telfno = '"null"'
+			telfno = 'null'
 		}
 
 		insertar += telfno + ', '
