@@ -18,13 +18,13 @@ export async function insertXML(db) {
 	).then(async(json) => {
 		//await query.regenerarBD(db)
 		var resultado = ''
-		log('Insertando provincias de Catalunya')
+		log('⏳ Insertando provincias de Catalunya')
 		resultado += await insertarProvinciaInBD(db, json) + ' de Catalunya'
 		resultado += '\n'
-		log('Insertando localidades de Catalunya')
+		log('⏳ Insertando localidades de Catalunya')
 		resultado += await insertLocalidadInBD(db, json) + ' de Catalunya'
 		resultado += '\n'
-		log('Insertando bibliotecas de Catalunya')
+		log('⏳ Insertando bibliotecas de Catalunya')
 		resultado += await insertBibliotecaInBD(db, json) + ' de Catalunya'
 		log(resultado)
 		return true
@@ -86,7 +86,7 @@ async function insertBibliotecaInBD(db, entrada) {
 					console.log(err)
 					resolve('Error al insertar Bibliotecas')
 				}
-				resolve('Se han insertado ' + consultaNecesaria +  ' bibliotecas')
+				resolve('✅ Se han insertado ' + consultaNecesaria +  ' bibliotecas')
 			})
 		})
 		utilities.sleep(1500)
@@ -140,7 +140,7 @@ async function insertLocalidadInBD(db, entrada) {
 					console.log(err)
 					resolve('Error al insertar Localidades')
 				}
-				resolve('Se han insertado ' + consultaNecesaria +  ' localidades')
+				resolve('✅ Se han insertado ' + consultaNecesaria +  ' localidades')
 			})
 		})
 	}
@@ -191,7 +191,7 @@ async function insertarProvinciaInBD(db, entrada) {
 					console.log(err)
 					resolve('Error al insertar Provincias')
 				}
-				resolve('Se han insertado ' + consultaNecesaria +  ' provincias')
+				resolve('✅ Se han insertado ' + consultaNecesaria +  ' provincias')
 			})
 		})
 	}

@@ -11,13 +11,13 @@ export async function insertCSV(db) {
 
 	//query.regenerarBD(db)
 	var resultado = ''
-	log('Insertando provincias de Valencia')
+	log('⏳ Insertando provincias de Valencia')
 	resultado += await insertarProvinciaInBD(db, json) + ' de Valencia'
 	resultado += '\n'
-	log('Insertando localidades de Valencia')
+	log('⏳ Insertando localidades de Valencia')
 	resultado += await insertLocalidadInBD(db, json) + ' de Valencia'
 	resultado += '\n'
-	log('Insertando Bibliotecas de Valencia')
+	log('⏳ Insertando Bibliotecas de Valencia')
 	resultado += await insertBibliotecaInBD(db, json) + ' de Valencia'
 	log(resultado)
 	return resultado
@@ -74,7 +74,7 @@ async function insertBibliotecaInBD(db, entrada) {
 				console.log(err)
 				resolve('Error al insertar Bibliotecas')
 			}
-			resolve('Se han insertado ' + consultaNecesaria +  ' bibliotecas')
+			resolve('✅ Se han insertado ' + consultaNecesaria +  ' bibliotecas')
 		})
 	})
 
@@ -123,7 +123,7 @@ async function insertLocalidadInBD(db, entrada) {
 					console.log(err)
 					resolve('Error al insertar Localidades')
 				}
-				resolve('Se han insertado ' + consultaNecesaria +  ' localidades')
+				resolve('✅ Se han insertado ' + consultaNecesaria +  ' localidades')
 			})
 		})
 	}
@@ -174,7 +174,7 @@ async function insertarProvinciaInBD(db, entrada) {
 					console.log(err)
 					resolve('Error al insertar Provincias')
 				}
-				resolve('Se han insertado ' + consultaNecesaria +  ' provincias')
+				resolve('✅ Se han insertado ' + consultaNecesaria +  ' provincias')
 			})
 		})
 	}
