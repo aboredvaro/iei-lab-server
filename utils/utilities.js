@@ -1,5 +1,5 @@
 import fs from 'fs'
-import {By, Key, Builder} from 'selenium-webdriver'
+import {By, Key, Builder, until} from 'selenium-webdriver'
 import log from './log.js'
 
 /**
@@ -128,19 +128,48 @@ export async function buscarCoordenadasGPS(location) {
 	// coordenadas = coordenadas.split(',')
 	// await driver.quit()
 
+	// let driver = await new Builder().forBrowser('chrome').build()
+	// await driver.get('https://www.itilog.com/')
+	// sleep(1500)
+	// await driver.findElement(By.id('address')).sendKeys(location)
+	// await driver.findElement(By.id('address_to_map')).sendKeys(Key.RETURN)
+	// sleep(500)
+	// const lat = await driver.findElement(By.id('latitude')).getAttribute('value')
+	// const lon = await driver.findElement(By.id('longitude')).getAttribute('value')
+	// await driver.quit()
+
+	// const json = {
+	// 	'lat': lat,
+	// 	'lon': lon
+	// }
+
+	// Cargar chrome y la página donde haremos la búsqueda
 	let driver = await new Builder().forBrowser('chrome').build()
-	await driver.get('https://www.itilog.com/')
-	sleep(1500)
-	await driver.findElement(By.id('address')).sendKeys(location)
-	await driver.findElement(By.id('address_to_map')).sendKeys(Key.RETURN)
-	sleep(500)
-	const lat = await driver.findElement(By.id('latitude')).getAttribute('value')
-	const lon = await driver.findElement(By.id('longitude')).getAttribute('value')
+	await driver.get('https://maps.google.com/')
+
+	// Aceptar términos y condiciones
+	await driver.executeScript('window.scrollBy(0,1000)')
+	await driver.findElement(By.xpath('/html/body/c-wiz/div/div/div/div[2]/div[1]/div[4]/form/div/div/button')).sendKeys(Key.RETURN)
+
+	// Introducir los valores en el buscador
+	//await driver.findElement(By.xpath('/html/body/div[3]/div[9]/div[3]/div[1]/div[1]/div[1]/div[2]/form/div/div[3]/div/input[1]')).sendKeys(location)
+	await driver.findElement(By.id('searchboxinput')).sendKeys(location)
+	await driver.findElement(By.xpath('/html/body/div[3]/div[9]/div[3]/div[1]/div[1]/div[1]/div[2]/div[1]/button')).click()
+
+	// Esperar a que busque (he puesto 120 seg de espera... aunque eso es el máximo que esperará)
+	await driver.wait(until.urlContains('@'), 120000)
+
+	// Obtener la url en una variable y cerrar el navegador
+	let url = await driver.getCurrentUrl()
 	await driver.quit()
 
+	// Limpiar URL y obtener longitud y latitud de ella, esto ya nada tiene que ver con selenium
+	url = url.slice( url.indexOf('@') + 1, url.indexOf('/', url.indexOf('@')) - 4 )
+	let arr = url.split(',')
 	const json = {
-		'lat': lat,
-		'lon': lon
+		'lat': arr[0],
+		'lon': arr[1]
 	}
+
 	return json
 }
