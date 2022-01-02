@@ -5,9 +5,9 @@ import log from './log.js'
 import * as utilities from './utilities.js'
 import * as query from './query.js'
 
-export async function insertCSV(db) {
+export async function insertCSV(db, path) {
 
-	var json = await utilities.csvJSON('./fuente/valencia.csv')
+	var json = await utilities.csvJSON('./' + path + '/valencia.csv')
 
 	//query.regenerarBD(db)
 	var resultado = ''

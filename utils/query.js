@@ -1,5 +1,6 @@
 import log from './log.js'
 
+import * as utilities from './utilities.js'
 import * as euskadi from './euskadi.js'
 import * as catalunya from './catalunya.js'
 import * as valencia from './valencia.js'
@@ -34,21 +35,18 @@ export async function regenerarBD(db){
 	if ( await dropBiblioteca(db) ) {
 		mensaje += '✅ Se ha podido BORRAR la tabla Biblioteca. \n'
 	} else {
-		//flag = false
 		mensaje += '❌ Error al BORRAR tabla Biblioteca. \n'
 	}
 
 	if ( await dropLocalidad(db) ) {
 		mensaje += '✅ Se ha podido BORRAR la tabla Localidad. \n'
 	} else {
-		//flag = false
 		mensaje += '❌ Error al BORRAR tabla Localidad. \n'
 	}
 
 	if ( await dropProvincia(db) ) {
 		mensaje += '✅ Se ha podido BORRAR la tabla Provincia. \n'
 	} else {
-		//flag = false
 		mensaje += '❌ Error al BORRAR tabla Provincia. \n'
 	}
 
@@ -185,5 +183,55 @@ export async function poblarBD(db){
 	}
 	log('\n🎉 LOS DATOS DE TODAS LAS BD SE HAN INSERTADO CON ÉXITO')
 	return '🎉 LOS DATOS DE TODAS LAS BD SE HAN INSERTADO CON ÉXITO'
+}
 
+export async function cargaAlmacenDatos(db, lightOrHeavy = 0, val = 0, eus = 1, cat = 0){
+	let path = 'fuente'
+	if (lightOrHeavy === 1){
+		path = 'fuente_old'
+	}
+
+	log(lightOrHeavy)
+
+	log (path)
+	// Inicializar mensajes
+	let msg = '\n\n\n----------------------------------\n'
+	msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> 🎉 INSERTANDO LOS DATOS EN EL ALMACÉN\n'
+	msg += '\n'
+
+	//
+	msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> ✅ La BD se ha regenerado correctamente\n'
+	if ( ! (await regenerarBD(db)) ){
+		return '❌ ¡Error al regenerar BD!'
+	}
+
+	if ( eus === 1 ) {
+		msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> ✅ Insertar datos de Euskadi\n'
+		if ( ! (await euskadi.insertJSON(db, path)) ){
+			return '❌ ¡Error al insertar datos de Euskadi!'
+		}
+	} else {
+		msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> ⚠️ NO se ha seleccionado Euskadi\n'
+	}
+
+	if( cat === 1 ) {
+		msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> ✅ Insertar datos de Catalunya\n'
+		if ( ! (await catalunya.insertXML(db, path)) ){
+			return '❌ ¡Error al insertar datos de Catalunya!'
+		}
+	} else {
+		msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> ⚠️ NO se ha seleccionado Catalunya\n'
+	}
+
+	if ( val === 1 ) {
+		msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> ✅ Insertar datos de Valencia\n'
+		if ( ! (await valencia.insertCSV(db, path)) ){
+			return '❌ ¡Error al insertar datos de Valencia!'
+		}
+	} else {
+		msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> ⚠️ NO se ha seleccionado Valencia\n'
+	}
+
+	msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> 🎉 LOS DATOS DE TODAS LAS COMUNIDADES SELECCIONADAS SE HAN INSERTADO CON ÉXITO\n'
+	return msg
 }
