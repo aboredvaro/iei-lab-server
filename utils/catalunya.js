@@ -61,7 +61,7 @@ async function insertBibliotecaInBD(db, entrada) {
 			//log(descripcion)
 			descripcion = descripcion.substring(0, descripcion.lastIndexOf('$')-3)
 
-			insertar += '"' + utilities.clearString(descripcion) + '", '
+			insertar += '"' + utilities.tipoUniversidad(utilities.clearString(descripcion)) + '", '
 			insertar += '"' + utilities.clearString(entrada[j].via) + '", '
 			insertar += codigoPostal + ', '
 			insertar += parseInt(entrada[j].codi_municipi) + ', '

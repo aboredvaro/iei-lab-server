@@ -27,6 +27,21 @@ export function isEmpty(valor){
 	return true
 }
 
+export function tipoUniversidad(string){
+	var tipo = 'Pública'
+	string = string.toLowerCase()
+
+	if ( string.includes('universi') ) {
+		tipo = 'Universidad'
+	} else if ( string.includes('priva') ) {
+		tipo = 'Privado'
+	} else if ( string.includes('concert') ) {
+		tipo = 'Concertado'
+	}
+
+	return tipo
+}
+
 export function clearString(string){
 	return string.toString().replace(/[&\\#+()$~%'":*?<>{}]/g, '-')
 }

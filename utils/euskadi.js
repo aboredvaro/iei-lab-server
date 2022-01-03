@@ -32,7 +32,7 @@ async function insertBibliotecaInBD(db, entrada) {
 			}
 		}
 		insertar += '("' + utilities.clearString(entrada[i].documentName) + '", '
-		insertar += '"' + utilities.clearString(entrada[i].documentDescription) + '", '
+		insertar += '"' + utilities.tipoUniversidad(utilities.clearString(entrada[i].documentDescription)) + '", '
 		insertar += '"' + utilities.clearString(entrada[i].address) + '", '
 		insertar += codigoPostal + ', '
 		insertar += codigoPostal%1000 + ', '

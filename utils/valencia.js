@@ -45,7 +45,7 @@ async function insertBibliotecaInBD(db, entrada) {
 				log(`🧭 Coordenadas obtenidas = (Latitud: ${res.lat}, Longitud: ${res.lon})\n`)
 				
 				insertar += '("' + utilities.clearString(utilities.capitalizarPrimeraLetra(entrada[i].NOMBRE)) + '", '
-				insertar += '"' + utilities.clearString(utilities.capitalizarPrimeraLetra(entrada[i].TIPO)) + '", '
+				insertar += '"' + utilities.tipoUniversidad(utilities.clearString(utilities.capitalizarPrimeraLetra(entrada[i].TIPO))) + '", '
 				insertar += '"' + direccion + '", '
 				insertar += codigoPostal + ', '
 				insertar += entrada[i].COD_MUNICIPIO + ', '
