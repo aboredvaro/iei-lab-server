@@ -91,8 +91,6 @@ app.get('/api/buscarCoordenadasGPS', (req, res) => {
 })
 
 app.get('/api/cargaAlmacenDatos', (req, res) => {
-
-	log(req.query.lh)
 	let lightOrHeavy = utilities.getNumber(req.query.lh)
 	let valencia = utilities.getNumber(req.query.v)
 	let euskadi = utilities.getNumber(req.query.e)
@@ -116,6 +114,40 @@ app.get('/api/cargaAlmacenDatos', (req, res) => {
 	})
 })
 
+app.get('/api/cargaBuscador', (req, res) => {
+	query.cargaBuscador(db, req).then(response => {
+		//log(response)
+		res.send(response)
+	})
+})
+
+app.get('/api/cargaLocalidad', (req, res) => {
+	query.cargaLocalidad(db, req).then(response => {
+		//log(response)
+		res.send(response)
+	})
+})
+
+app.get('/api/cargaCodigoPostal', (req, res) => {
+	query.cargaCodigoPostal(db, req).then(response => {
+		//log(response)
+		res.send(response)
+	})
+})
+
+app.get('/api/cargaProvincia', (req, res) => {
+	query.cargaProvincia(db, req).then(response => {
+		//log(response)
+		res.send(response)
+	})
+})
+
+app.get('/api/cargaTipo', (req, res) => {
+	query.cargaTipo(db, req).then(response => {
+		//log(response)
+		res.send(response)
+	})
+})
 //  //  //  //  //
 //
 //  START LISTENING

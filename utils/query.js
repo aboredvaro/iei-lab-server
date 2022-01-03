@@ -6,7 +6,7 @@ import * as catalunya from './catalunya.js'
 import * as valencia from './valencia.js'
 
 export async function query(db, sql) {
-	log(sql)
+	//log(sql)
 	return new Promise(resolve => {
 		db.query(sql, (err, result) => {
 			if (err) {
@@ -191,9 +191,6 @@ export async function cargaAlmacenDatos(db, lightOrHeavy = 0, val = 0, eus = 1, 
 		path = 'fuente_old'
 	}
 
-	log(lightOrHeavy)
-
-	log (path)
 	// Inicializar mensajes
 	let msg = '\n\n\n----------------------------------\n'
 	msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> 🎉 INSERTANDO LOS DATOS EN EL ALMACÉN\n'
@@ -234,4 +231,66 @@ export async function cargaAlmacenDatos(db, lightOrHeavy = 0, val = 0, eus = 1, 
 
 	msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> 🎉 LOS DATOS DE TODAS LAS COMUNIDADES SELECCIONADAS SE HAN INSERTADO CON ÉXITO\n'
 	return msg
+}
+
+export async function cargaBuscador(db, req) {
+	var select = 'SELECT b.id, b.nombre, b.tipo, b.codigoPostal, b.direccion, l.nombre as localidad, p.nombre as provincia, b.latitud, b.longitud, b.telefono, b.email, b. descripcion '
+	var fromWhere = stringCuerpoQueryCarga(req)
+	fromWhere += 'ORDER BY b.id ASC;'
+
+	var sql = select + fromWhere
+
+	return await query(db, sql)
+}
+
+export async function cargaLocalidad(db, req) {
+	var select = 'SELECT DISTINCT(l.nombre) as localidad '
+	var fromWhere = stringCuerpoQueryCarga(req)
+	fromWhere += 'ORDER BY l.nombre ASC;'
+
+	var sql = select + fromWhere
+	
+	return JSON.parse(JSON.stringify( await query(db, sql) ))
+}
+
+export async function cargaCodigoPostal(db, req) {
+	var select = 'SELECT DISTINCT(b.codigoPostal) '
+	var fromWhere = stringCuerpoQueryCarga(req)
+	fromWhere += 'ORDER BY b.codigoPostal ASC;'
+
+	var sql = select + fromWhere
+	
+	return JSON.parse(JSON.stringify( await query(db, sql) ))
+}
+
+export async function cargaProvincia(db, req) {
+	var select = 'SELECT DISTINCT(p.nombre) as provincia '
+	var fromWhere = stringCuerpoQueryCarga(req)
+	fromWhere += 'ORDER BY p.nombre ASC;'
+
+	var sql = select + fromWhere
+	
+	return JSON.parse(JSON.stringify( await query(db, sql) ))
+}
+
+export async function cargaTipo(db, req) {
+	var select = 'SELECT DISTINCT(b.tipo) '
+	var fromWhere = stringCuerpoQueryCarga(req)
+	fromWhere += 'ORDER BY b.tipo ASC;'
+
+	var sql = select + fromWhere
+	
+	return JSON.parse(JSON.stringify( await query(db, sql) ))
+}
+
+function stringCuerpoQueryCarga(req) {
+	var fromWhere = 'FROM biblioteca b, localidad l, provincia p '
+	fromWhere += 'WHERE l.codigoProvincia = p.codigo '
+	fromWhere += 'AND b.codigoPostal = l.codigo '
+	fromWhere +=  utilities.isEmpty(req.query.lc) ? '' : 'AND l.nombre = "' + req.query.lc + '" '
+	fromWhere +=  utilities.isEmpty(req.query.cp) ? '' : 'AND l.codigo = "' + req.query.cp + '" '
+	fromWhere +=  utilities.isEmpty(req.query.pr) ? '' : 'AND p.provincia = "' + req.query.pr + '" '
+	fromWhere +=  utilities.isEmpty(req.query.tp) ? '' : 'AND b.tipo = "' + req.query.tp + '" '
+
+	return fromWhere
 }

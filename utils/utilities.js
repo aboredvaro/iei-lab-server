@@ -15,6 +15,18 @@ export function getNumber(valor){
 	return numero
 }
 
+/**
+ * @description Comprueba si el parámetro introducido está sin definir o vacío
+ * @param {*} valor 
+ * @returns Devuelve False si contiene datos y True en caso contrario
+ */
+export function isEmpty(valor){
+	if ((typeof valor) !== 'undefined' && JSON.stringify(valor) != '""') {
+		return false
+	}
+	return true
+}
+
 export function clearString(string){
 	return string.toString().replace(/[&\\#+()$~%'":*?<>{}]/g, '-')
 }
