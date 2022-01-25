@@ -23,7 +23,7 @@ export async function isInDatabase(db, column, fromTables, conditionWhere) {
 	var from = 'FROM ' + fromTables + ' '
 	var where = 'WHERE ' + conditionWhere + ';'
 	var sql = select + from + where
-	log(sql)
+	//log(sql)
 	return await query(db, sql)
 }
 
@@ -70,7 +70,7 @@ export async function regenerarBD(db){
 		flag = false
 		mensaje += '❌ Error al CREAR tabla Biblioteca. \n'
 	}
-	log(mensaje)
+	//log(mensaje)
 	return flag 
 }
 
@@ -159,29 +159,29 @@ async function createBiblioteca(db){
 }
 
 export async function poblarBD(db){
-	log('\n')
-	log('_________________________________________')
-	log('\n')
-	log('\n⏳ Regenerando la BD')
+	//log('\n')
+	//log('_________________________________________')
+	//log('\n')
+	//log('\n⏳ Regenerando la BD')
 	if ( ! (await regenerarBD(db)) ){
 		return '❌ ¡Error al regenerar BD!'
 	}
 
-	log('\nInsertar datos de Euskadi')
+	//log('\nInsertar datos de Euskadi')
 	if ( ! (await euskadi.insertJSON(db)) ){
 		return '❌ ¡Error al insertar datos de Euskadi!'
 	}
 
-	log('\nInsertar datos de Catalunya')
+	//log('\nInsertar datos de Catalunya')
 	if ( ! (await catalunya.insertXML(db)) ){
 		return '❌ ¡Error al insertar datos de Catalunya!'
 	}
 
-	log('\nInsertar datos de Valencia')
+	//log('\nInsertar datos de Valencia')
 	if ( ! (await valencia.insertCSV(db)) ){
 		return '❌ ¡Error al insertar datos de Valencia!'
 	}
-	log('\n🎉 LOS DATOS DE TODAS LAS BD SE HAN INSERTADO CON ÉXITO')
+	//log('\n🎉 LOS DATOS DE TODAS LAS BD SE HAN INSERTADO CON ÉXITO')
 	return '🎉 LOS DATOS DE TODAS LAS BD SE HAN INSERTADO CON ÉXITO'
 }
 
@@ -289,7 +289,7 @@ function stringCuerpoQueryCarga(req) {
 	fromWhere += 'AND b.codigoPostal = l.codigo '
 	fromWhere +=  utilities.isEmpty(req.query.lc) ? '' : 'AND l.nombre = "' + req.query.lc + '" '
 	fromWhere +=  utilities.isEmpty(req.query.cp) ? '' : 'AND l.codigo = "' + req.query.cp + '" '
-	fromWhere +=  utilities.isEmpty(req.query.pr) ? '' : 'AND p.provincia = "' + req.query.pr + '" '
+	fromWhere +=  utilities.isEmpty(req.query.pr) ? '' : 'AND p.nombre = "' + req.query.pr + '" '
 	fromWhere +=  utilities.isEmpty(req.query.tp) ? '' : 'AND b.tipo = "' + req.query.tp + '" '
 
 	return fromWhere
