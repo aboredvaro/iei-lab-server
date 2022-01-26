@@ -1,11 +1,12 @@
 import log from './log.js'
 
+import * as utilities from './utilities.js'
 import * as euskadi from './euskadi.js'
 import * as catalunya from './catalunya.js'
 import * as valencia from './valencia.js'
 
 export async function query(db, sql) {
-	log(sql)
+	//log(sql)
 	return new Promise(resolve => {
 		db.query(sql, (err, result) => {
 			if (err) {
@@ -22,7 +23,7 @@ export async function isInDatabase(db, column, fromTables, conditionWhere) {
 	var from = 'FROM ' + fromTables + ' '
 	var where = 'WHERE ' + conditionWhere + ';'
 	var sql = select + from + where
-	log(sql)
+	//log(sql)
 	return await query(db, sql)
 }
 
@@ -34,21 +35,18 @@ export async function regenerarBD(db){
 	if ( await dropBiblioteca(db) ) {
 		mensaje += '✅ Se ha podido BORRAR la tabla Biblioteca. \n'
 	} else {
-		//flag = false
 		mensaje += '❌ Error al BORRAR tabla Biblioteca. \n'
 	}
 
 	if ( await dropLocalidad(db) ) {
 		mensaje += '✅ Se ha podido BORRAR la tabla Localidad. \n'
 	} else {
-		//flag = false
 		mensaje += '❌ Error al BORRAR tabla Localidad. \n'
 	}
 
 	if ( await dropProvincia(db) ) {
 		mensaje += '✅ Se ha podido BORRAR la tabla Provincia. \n'
 	} else {
-		//flag = false
 		mensaje += '❌ Error al BORRAR tabla Provincia. \n'
 	}
 
@@ -72,7 +70,7 @@ export async function regenerarBD(db){
 		flag = false
 		mensaje += '❌ Error al CREAR tabla Biblioteca. \n'
 	}
-	log(mensaje)
+	//log(mensaje)
 	return flag 
 }
 
@@ -185,5 +183,126 @@ export async function poblarBD(db){
 	}
 	log('\n🎉 LOS DATOS DE TODAS LAS BD SE HAN INSERTADO CON ÉXITO')
 	return '🎉 LOS DATOS DE TODAS LAS BD SE HAN INSERTADO CON ÉXITO'
+}
 
+export async function cargaAlmacenDatos(db, lightOrHeavy = 0, val = 0, eus = 1, cat = 0){
+	let path = 'fuente'
+	if (lightOrHeavy === 1){
+		path = 'fuente_old'
+	}
+
+	// Inicializar variables de resultado
+	let si = []
+	let no = []
+
+	if ( ! (await regenerarBD(db)) ){
+		return {
+			status: 0,
+			msg: '¡Error al regenerar BD!'
+		}
+	}
+
+	if ( eus === 1 ) {
+		if ( ! (await euskadi.insertJSON(db, path)) ){
+			return {
+				status: 0,
+				msg: '¡Error al insertar datos de Euskadi!'
+			}
+		}
+		si.push('Euskadi')
+	} else {
+		no.push('Euskadi')
+	}
+
+	if( cat === 1 ) {
+		if ( ! (await catalunya.insertXML(db, path)) ){
+			return {
+				status: 0,
+				msg: '¡Error al insertar datos de Catalunya!'
+			}
+		}
+		si.push('Catalunya')
+	} else {
+		no.push('Catalunya')
+	}
+
+	if ( val === 1 ) {
+		if ( ! (await valencia.insertCSV(db, path)) ){
+			return {
+				status: 0,
+				msg: '¡Error al insertar datos de Valencia!'
+			}
+		}
+		si.push('Valencia')
+	} else {
+		no.push('Valencia')
+	}
+
+	return {
+		status: 1,
+		select: si,
+		unselect: no
+	}
+}
+
+export async function cargaBuscador(db, req) {
+	var select = 'SELECT b.id, b.nombre, b.tipo, b.codigoPostal, b.direccion, l.nombre as localidad, p.nombre as provincia, b.latitud, b.longitud, b.telefono, b.email, b. descripcion '
+	var fromWhere = stringCuerpoQueryCarga(req)
+	fromWhere += 'ORDER BY b.id ASC;'
+
+	var sql = select + fromWhere
+
+	return await query(db, sql)
+}
+
+export async function cargaLocalidad(db, req) {
+	var select = 'SELECT DISTINCT(l.nombre) as localidad '
+	var fromWhere = stringCuerpoQueryCarga(req)
+	fromWhere += 'ORDER BY l.nombre ASC;'
+
+	var sql = select + fromWhere
+	
+	return JSON.parse(JSON.stringify( await query(db, sql) ))
+}
+
+export async function cargaCodigoPostal(db, req) {
+	var select = 'SELECT DISTINCT(b.codigoPostal) '
+	var fromWhere = stringCuerpoQueryCarga(req)
+	fromWhere += 'ORDER BY b.codigoPostal ASC;'
+
+	var sql = select + fromWhere
+	
+	return JSON.parse(JSON.stringify( await query(db, sql) ))
+}
+
+export async function cargaProvincia(db, req) {
+	var select = 'SELECT DISTINCT(p.nombre) as provincia '
+	var fromWhere = stringCuerpoQueryCarga(req)
+	fromWhere += 'ORDER BY p.nombre ASC;'
+
+	var sql = select + fromWhere
+	
+	return JSON.parse(JSON.stringify( await query(db, sql) ))
+}
+
+export async function cargaTipo(db, req) {
+	var select = 'SELECT DISTINCT(b.tipo) '
+	var fromWhere = stringCuerpoQueryCarga(req)
+	fromWhere += 'ORDER BY b.tipo ASC;'
+
+	var sql = select + fromWhere
+	
+	return JSON.parse(JSON.stringify( await query(db, sql) ))
+}
+
+function stringCuerpoQueryCarga(req) {
+	var fromWhere = 'FROM biblioteca b, localidad l, provincia p '
+	fromWhere += 'WHERE l.codigoProvincia = p.codigo '
+	fromWhere += 'AND b.codigoPostal = l.codigo '
+	fromWhere +=  utilities.isEmpty(req.query.lc) ? '' : 'AND l.nombre = "' + req.query.lc + '" '
+	fromWhere +=  utilities.isEmpty(req.query.cp) ? '' : 'AND l.codigo = "' + req.query.cp + '" '
+	fromWhere +=  utilities.isEmpty(req.query.pr) ? '' : 'AND p.nombre = "' + req.query.pr + '" '
+	fromWhere +=  utilities.isEmpty(req.query.tp) ? '' : 'AND b.tipo = "' + req.query.tp + '" '
+
+	return fromWhere
 }

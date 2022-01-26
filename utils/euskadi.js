@@ -1,11 +1,11 @@
 import { readFile } from 'fs/promises'
-const euskadi = JSON.parse(await readFile(new URL('../fuente/euskadi.json', import.meta.url)))
 
 import log from './log.js'
 import * as utilities from './utilities.js'
 import * as query from './query.js'
 
-export async function insertJSON(db) {
+export async function insertJSON(db, path) {
+	const euskadi = JSON.parse(await readFile(new URL('../' + path + '/euskadi.json', import.meta.url)))
 	//log(euskadi)
 	var resultado = ''
 	log('⏳ Insertando provincias de Euskadi')
@@ -32,7 +32,7 @@ async function insertBibliotecaInBD(db, entrada) {
 			}
 		}
 		insertar += '("' + utilities.clearString(entrada[i].documentName) + '", '
-		insertar += '"' + utilities.clearString(entrada[i].documentDescription) + '", '
+		insertar += '"' + utilities.tipoUniversidad(utilities.clearString(entrada[i].documentDescription)) + '", '
 		insertar += '"' + utilities.clearString(entrada[i].address) + '", '
 		insertar += codigoPostal + ', '
 		insertar += codigoPostal%1000 + ', '

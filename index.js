@@ -90,6 +90,64 @@ app.get('/api/buscarCoordenadasGPS', (req, res) => {
 	})
 })
 
+app.get('/api/cargaAlmacenDatos', (req, res) => {
+	let lightOrHeavy = utilities.getNumber(req.query.lh)
+	let valencia = utilities.getNumber(req.query.v)
+	let euskadi = utilities.getNumber(req.query.e)
+	let catalunya = utilities.getNumber(req.query.c)
+
+	if (lightOrHeavy < 0 || lightOrHeavy > 1) {
+		return res.send('❌ ¡El fichero fuente elegido no está disponible!')
+	} else if (valencia < 0 || valencia > 1) {
+		return res.send('❌ ¡El valor para "VALENCIA" no es el adecuado!')
+	} else if (euskadi < 0 || euskadi > 1) {
+		return res.send('❌ ¡El valor para "EUSKADI" no es el adecuado!')
+	} else if (catalunya < 0 || catalunya > 1) {
+		return res.send('❌ ¡El valor para "CATALUNYA" no es el adecuado!')
+	} else if (valencia === 0 && euskadi === 0 && catalunya === 0 ){
+		return res.send('❌ ¡No ha seleccionado ninguna comunidad!')
+	}
+
+	query.cargaAlmacenDatos(db, lightOrHeavy, valencia, euskadi, catalunya).then(response => {
+		//log(response)
+		res.send(response)
+	})
+})
+
+app.get('/api/cargaBuscador', (req, res) => {
+	query.cargaBuscador(db, req).then(response => {
+		//log(response)
+		res.send(response)
+	})
+})
+
+app.get('/api/cargaLocalidad', (req, res) => {
+	query.cargaLocalidad(db, req).then(response => {
+		//log(response)
+		res.send(response)
+	})
+})
+
+app.get('/api/cargaCodigoPostal', (req, res) => {
+	query.cargaCodigoPostal(db, req).then(response => {
+		//log(response)
+		res.send(response)
+	})
+})
+
+app.get('/api/cargaProvincia', (req, res) => {
+	query.cargaProvincia(db, req).then(response => {
+		//log(response)
+		res.send(response)
+	})
+})
+
+app.get('/api/cargaTipo', (req, res) => {
+	query.cargaTipo(db, req).then(response => {
+		//log(response)
+		res.send(response)
+	})
+})
 //  //  //  //  //
 //
 //  START LISTENING

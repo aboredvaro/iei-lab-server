@@ -15,6 +15,33 @@ export function getNumber(valor){
 	return numero
 }
 
+/**
+ * @description Comprueba si el parámetro introducido está sin definir o vacío
+ * @param {*} valor 
+ * @returns Devuelve False si contiene datos y True en caso contrario
+ */
+export function isEmpty(valor){
+	if ((typeof valor) !== 'undefined' && JSON.stringify(valor) != '""') {
+		return false
+	}
+	return true
+}
+
+export function tipoUniversidad(string){
+	var tipo = 'Pública'
+	string = string.toLowerCase()
+
+	if ( string.includes('universi') ) {
+		tipo = 'Universidad'
+	} else if ( string.includes('priva') ) {
+		tipo = 'Privado'
+	} else if ( string.includes('concert') ) {
+		tipo = 'Concertado'
+	}
+
+	return tipo
+}
+
 export function clearString(string){
 	return string.toString().replace(/[&\\#+()$~%'":*?<>{}]/g, '-')
 }
@@ -117,32 +144,6 @@ export async function csvJSON(archivo){
 }
 
 export async function buscarCoordenadasGPS(location) {
-	// let driver = await new Builder().forBrowser('chrome').build()
-	// await driver.get('https://wego.here.com/')
-	// sleep(2000)
-	// await driver.findElement(By.className('input_search')).sendKeys(location, Key.RETURN)
-	// sleep(2000)
-	// await driver.findElement(By.xpath('/html/body/div[1]/div[6]/div[1]/div/div[4]/div/div/div[1]/div[3]/div/div[1]/button')).sendKeys(Key.RETURN)
-	// sleep(100)
-	// let coordenadas = await driver.findElement(By.xpath('/html/body/div[1]/div[6]/div[1]/div/div[4]/div/div/div[2]/div/section[2]/section/div/dl/dd')).getText()
-	// coordenadas = coordenadas.split(',')
-	// await driver.quit()
-
-	// let driver = await new Builder().forBrowser('chrome').build()
-	// await driver.get('https://www.itilog.com/')
-	// sleep(1500)
-	// await driver.findElement(By.id('address')).sendKeys(location)
-	// await driver.findElement(By.id('address_to_map')).sendKeys(Key.RETURN)
-	// sleep(500)
-	// const lat = await driver.findElement(By.id('latitude')).getAttribute('value')
-	// const lon = await driver.findElement(By.id('longitude')).getAttribute('value')
-	// await driver.quit()
-
-	// const json = {
-	// 	'lat': lat,
-	// 	'lon': lon
-	// }
-
 	// Cargar chrome y la página donde haremos la búsqueda
 	let driver = await new Builder().forBrowser('chrome').build()
 	await driver.get('https://maps.google.com/')
@@ -161,6 +162,7 @@ export async function buscarCoordenadasGPS(location) {
 
 	// Obtener la url en una variable y cerrar el navegador
 	let url = await driver.getCurrentUrl()
+	await driver.close()
 	await driver.quit()
 
 	// Limpiar URL y obtener longitud y latitud de ella, esto ya nada tiene que ver con selenium
@@ -172,4 +174,30 @@ export async function buscarCoordenadasGPS(location) {
 	}
 
 	return json
+}
+
+export function getFechaHoraNow(){
+	var today = new Date()
+	var day = today.getDate() + ''
+	var month = (today.getMonth() + 1) + ''
+	var year = today.getFullYear() + ''
+	var hour = today.getHours() + ''
+	var minutes = today.getMinutes() + ''
+	var seconds = today.getSeconds() + ''
+
+	day = checkZero(day)
+	month = checkZero(month)
+	year = checkZero(year)
+	hour = checkZero(hour)
+	minutes = checkZero(minutes)
+	seconds = checkZero(seconds)
+
+	return day + '/' + month + '/' + year + ' ' + hour + ':' + minutes + ':' + seconds
+}
+
+function checkZero(data){
+	if(data.length == 1){
+		data = '0' + data
+	}
+	return data
 }

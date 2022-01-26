@@ -5,9 +5,9 @@ import log from './log.js'
 import * as utilities from './utilities.js'
 import * as query from './query.js'
 
-export async function insertCSV(db) {
+export async function insertCSV(db, path) {
 
-	var json = await utilities.csvJSON('./fuente/valencia.csv')
+	var json = await utilities.csvJSON('./' + path + '/valencia.csv')
 
 	//query.regenerarBD(db)
 	var resultado = ''
@@ -45,7 +45,7 @@ async function insertBibliotecaInBD(db, entrada) {
 				log(`🧭 Coordenadas obtenidas = (Latitud: ${res.lat}, Longitud: ${res.lon})\n`)
 				
 				insertar += '("' + utilities.clearString(utilities.capitalizarPrimeraLetra(entrada[i].NOMBRE)) + '", '
-				insertar += '"' + utilities.clearString(utilities.capitalizarPrimeraLetra(entrada[i].TIPO)) + '", '
+				insertar += '"' + utilities.tipoUniversidad(utilities.clearString(utilities.capitalizarPrimeraLetra(entrada[i].TIPO))) + '", '
 				insertar += '"' + direccion + '", '
 				insertar += codigoPostal + ', '
 				insertar += entrada[i].COD_MUNICIPIO + ', '

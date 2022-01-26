@@ -5,10 +5,10 @@ import log from './log.js'
 import * as utilities from './utilities.js'
 import * as query from './query.js'
 
-export async function insertXML(db) {
+export async function insertXML(db, path) {
 	var parser = new xml2js.Parser()
 	return new Promise(resolve => {
-		fs.readFile('./fuente/catalunya.xml', function(err, data) {
+		fs.readFile('./' + path + '/catalunya.xml', function(err, data) {
 			parser.parseString(data, function (err, result) {
 				resolve(result)
 			})
@@ -61,7 +61,7 @@ async function insertBibliotecaInBD(db, entrada) {
 			//log(descripcion)
 			descripcion = descripcion.substring(0, descripcion.lastIndexOf('$')-3)
 
-			insertar += '"' + utilities.clearString(descripcion) + '", '
+			insertar += '"' + utilities.tipoUniversidad(utilities.clearString(descripcion)) + '", '
 			insertar += '"' + utilities.clearString(entrada[j].via) + '", '
 			insertar += codigoPostal + ', '
 			insertar += parseInt(entrada[j].codi_municipi) + ', '
