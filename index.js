@@ -76,6 +76,13 @@ app.get('/env', (req, res) => {
 //
 //  //  //  //  //
 
+app.get('/api/vaciarBD', (req, res) => {
+	query.regenerarBD(db).then(response => {
+		//log(response)
+		res.send(response)
+	})
+})
+
 app.get('/api/poblarBD', (req, res) => {
 	query.poblarBD(db).then(response => {
 		//log(response)
