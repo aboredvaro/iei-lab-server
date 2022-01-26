@@ -159,29 +159,29 @@ async function createBiblioteca(db){
 }
 
 export async function poblarBD(db){
-	//log('\n')
-	//log('_________________________________________')
-	//log('\n')
-	//log('\n⏳ Regenerando la BD')
+	log('\n')
+	log('_________________________________________')
+	log('\n')
+	log('\n⏳ Regenerando la BD')
 	if ( ! (await regenerarBD(db)) ){
 		return '❌ ¡Error al regenerar BD!'
 	}
 
-	//log('\nInsertar datos de Euskadi')
+	log('\nInsertar datos de Euskadi')
 	if ( ! (await euskadi.insertJSON(db)) ){
 		return '❌ ¡Error al insertar datos de Euskadi!'
 	}
 
-	//log('\nInsertar datos de Catalunya')
+	log('\nInsertar datos de Catalunya')
 	if ( ! (await catalunya.insertXML(db)) ){
 		return '❌ ¡Error al insertar datos de Catalunya!'
 	}
 
-	//log('\nInsertar datos de Valencia')
+	log('\nInsertar datos de Valencia')
 	if ( ! (await valencia.insertCSV(db)) ){
 		return '❌ ¡Error al insertar datos de Valencia!'
 	}
-	//log('\n🎉 LOS DATOS DE TODAS LAS BD SE HAN INSERTADO CON ÉXITO')
+	log('\n🎉 LOS DATOS DE TODAS LAS BD SE HAN INSERTADO CON ÉXITO')
 	return '🎉 LOS DATOS DE TODAS LAS BD SE HAN INSERTADO CON ÉXITO'
 }
 
@@ -191,46 +191,58 @@ export async function cargaAlmacenDatos(db, lightOrHeavy = 0, val = 0, eus = 1, 
 		path = 'fuente_old'
 	}
 
-	// Inicializar mensajes
-	let msg = '\n\n\n----------------------------------\n'
-	msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> 🎉 INSERTANDO LOS DATOS EN EL ALMACÉN\n'
-	msg += '\n'
+	// Inicializar variables de resultado
+	let si = []
+	let no = []
 
-	//
-	msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> ✅ La BD se ha regenerado correctamente\n'
 	if ( ! (await regenerarBD(db)) ){
-		return '❌ ¡Error al regenerar BD!'
+		return {
+			status: 0,
+			msg: '¡Error al regenerar BD!'
+		}
 	}
 
 	if ( eus === 1 ) {
-		msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> ✅ Insertar datos de Euskadi\n'
 		if ( ! (await euskadi.insertJSON(db, path)) ){
-			return '❌ ¡Error al insertar datos de Euskadi!'
+			return {
+				status: 0,
+				msg: '¡Error al insertar datos de Euskadi!'
+			}
 		}
+		si.push('Euskadi')
 	} else {
-		msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> ⚠️ NO se ha seleccionado Euskadi\n'
+		no.push('Euskadi')
 	}
 
 	if( cat === 1 ) {
-		msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> ✅ Insertar datos de Catalunya\n'
 		if ( ! (await catalunya.insertXML(db, path)) ){
-			return '❌ ¡Error al insertar datos de Catalunya!'
+			return {
+				status: 0,
+				msg: '¡Error al insertar datos de Catalunya!'
+			}
 		}
+		si.push('Catalunya')
 	} else {
-		msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> ⚠️ NO se ha seleccionado Catalunya\n'
+		no.push('Catalunya')
 	}
 
 	if ( val === 1 ) {
-		msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> ✅ Insertar datos de Valencia\n'
 		if ( ! (await valencia.insertCSV(db, path)) ){
-			return '❌ ¡Error al insertar datos de Valencia!'
+			return {
+				status: 0,
+				msg: '¡Error al insertar datos de Valencia!'
+			}
 		}
+		si.push('Valencia')
 	} else {
-		msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> ⚠️ NO se ha seleccionado Valencia\n'
+		no.push('Valencia')
 	}
 
-	msg += '[' + utilities.getFechaHoraNow() + ']' + ' --> 🎉 LOS DATOS DE TODAS LAS COMUNIDADES SELECCIONADAS SE HAN INSERTADO CON ÉXITO\n'
-	return msg
+	return {
+		status: 1,
+		select: si,
+		unselect: no
+	}
 }
 
 export async function cargaBuscador(db, req) {
