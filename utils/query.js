@@ -248,7 +248,7 @@ export async function cargaAlmacenDatos(db, lightOrHeavy = 0, val = 0, eus = 1, 
 export async function cargaBuscador(db, req) {
 	var select = 'SELECT b.id, b.nombre, b.tipo, b.codigoPostal, b.direccion, l.nombre as localidad, p.nombre as provincia, b.latitud, b.longitud, b.telefono, b.email, b. descripcion '
 	var fromWhere = stringCuerpoQueryCarga(req)
-	fromWhere += 'ORDER BY b.id ASC;'
+	fromWhere += 'ORDER BY b.nombre ASC;'
 
 	var sql = select + fromWhere
 
