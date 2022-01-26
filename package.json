@@ -8,29 +8,29 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@types/sjcl": "^1.0.30",
-    "axios": "^0.22.0",
-    "chromedriver": "^96.0.0",
-    "cors": "^2.8.5",
-    "cross-env": "^7.0.3",
-    "csvtojson": "^2.0.10",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "geckodriver": "^2.0.4",
-    "global": "^4.4.0",
-    "mysql": "^2.18.1",
-    "nodemon": "^2.0.13",
-    "selenium-webdriver": "^4.0.0",
-    "typescript": "^4.4.3",
-    "xml2js": "^0.4.23"
+    "@types/sjcl": "1.0.30",
+    "axios": "0.22.0",
+    "chromedriver": "96.0.0",
+    "cors": "2.8.5",
+    "cross-env": "7.0.3",
+    "csvtojson": "2.0.10",
+    "dotenv": "10.0.0",
+    "express": "4.17.1",
+    "geckodriver": "2.0.4",
+    "global": "4.4.0",
+    "mysql": "2.18.1",
+    "nodemon": "2.0.13",
+    "selenium-webdriver": "4.0.0",
+    "typescript": "4.4.3",
+    "xml2js": "0.4.23"
   },
   "type": "module",
   "engines": {
     "node": ">=v14.17.3"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "@typescript-eslint/parser": "^4.33.0",
-    "eslint": "^7.32.0"
+    "@typescript-eslint/eslint-plugin": "4.33.0",
+    "@typescript-eslint/parser": "4.33.0",
+    "eslint": "7.32.0"
   }
 }
