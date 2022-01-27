@@ -26,7 +26,7 @@ export async function insertCSV(db, path) {
 async function insertBibliotecaInBD(db, entrada) {
   
 	// Crea un string con la consulta de las provincias que no están ya en la BD
-	var insertar = 'INSERT INTO biblioteca (nombre, tipo, direccion, codigoPostal, codigoLocalidad, longitud, latitud, telefono, email) VALUES '
+	var insertar = 'INSERT INTO biblioteca (nombre, tipo, direccion, codigoPostal, codigoLocalidad, latitud, longitud, telefono, email) VALUES '
 	var consultaNecesaria=0
 	const sql = async() => {
 		log('\n')
